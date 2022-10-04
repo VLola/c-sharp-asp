@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project_67", "Project_67\Pr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project_68", "Project_68\Project_68.csproj", "{E2629741-41EB-4223-AB6E-D4DCF6C80DA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_68_Library", "Porject_68_Library\Project_68_Library.csproj", "{4FB02B47-32B6-4E2A-8868-06599FA34564}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_68_Library", "Project_68_Library\Project_68_Library.csproj", "{4FB02B47-32B6-4E2A-8868-06599FA34564}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
