@@ -41,8 +41,12 @@ namespace Project_68.Controllers
         [HttpPut("SetArchive {id}")]
         public bool SetArchive(int id)
         {
-            ArchiveRepository.Set(NoteRepository.Get(id));
-            return NoteRepository.Del(id);
+            if (NoteRepository.Get(id) != null)
+            {
+                ArchiveRepository.Set(NoteRepository.Get(id));
+                return NoteRepository.Del(id);
+            }
+            return false;
         }
         [HttpPut("Delete {id}")]
         public bool Delete(int id)
