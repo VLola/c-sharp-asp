@@ -19,6 +19,17 @@ namespace Project_68.Models.Repositories
             }
             return false;
         }
+        public static bool CheckToken(string token)
+        {
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                foreach (var item in connection.GetAll<User>())
+                {
+                    if (item.Token == token) return true;
+                }
+            }
+            return false;
+        }
         public static IEnumerable<User> GetAll()
         {
             using (IDbConnection connection = new SqlConnection(connectionString))

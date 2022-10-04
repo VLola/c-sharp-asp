@@ -22,12 +22,20 @@ namespace Project_68.Models.Repositories
                 return connection.Get<Note>(id);
             }
         }
-        public static long Set(Note user)
+        public static long Set(Note note)
         {
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Insert(user);
+                return connection.Insert(note);
             }
         }
+        public static bool Del(int id)
+        {
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Delete(new Note() { Id = id });
+            }
+        }
+
     }
 }

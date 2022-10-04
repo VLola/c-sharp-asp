@@ -13,20 +13,41 @@ namespace Project_68.Controllers
         {
             _logger = logger;
         }
-        [HttpGet()]
+        [HttpGet("GetAll")]
         public IEnumerable<Note> Get()
         {
             return NoteRepository.GetAll();
         }
-        [HttpGet("{id}")]
+        [HttpGet("Get {id}")]
         public Note Get(int id)
         {
             return NoteRepository.Get(id);
         }
-        [HttpPut("{owner}, {title}, {text}")]
+        [HttpGet("Get {owner}, {startTime}, {endTime}")]
+        public IEnumerable<Note> Get(string owner, DateTime startTime, DateTime endTime)
+        {
+            List<Note> list = new();
+            foreach (var item in NoteRepository.GetAll())
+            {
+                if (item.Owner == owner && item.CreateTime >= startTime && item.CreateTime <= endTime) list.Add(item);
+            }
+            return list;
+        }
+        [HttpPut("Set {owner}, {title}, {text}")]
         public long Set(string owner, string title, string text)
         {
-            return NoteRepository.Set(new Note() { Owner = owner, Title = title, Text = text, CreateTime = DateTime.Now});
+            return NoteRepository.Set(new Note() { Owner = owner, Title = title, Text = text, CreateTime = DateTime.Now });
+        }
+        [HttpPut("SetArchive {id}")]
+        public bool SetArchive(int id)
+        {
+            ArchiveRepository.Set(NoteRepository.Get(id));
+            return NoteRepository.Del(id);
+        }
+        [HttpPut("Delete {id}")]
+        public bool Delete(int id)
+        {
+            return NoteRepository.Del(id);
         }
     }
 }
