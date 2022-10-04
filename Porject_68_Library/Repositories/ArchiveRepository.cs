@@ -1,8 +1,9 @@
 ﻿using System.Data.SqlClient;
+using Project_68_Library.Models;
 using System.Data;
 using Dapper.Contrib.Extensions;
 
-namespace Project_68.Models.Repositories
+namespace Project_68_Library.Repositories
 {
     public class ArchiveRepository
     {

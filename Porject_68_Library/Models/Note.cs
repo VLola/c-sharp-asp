@@ -1,4 +1,4 @@
-﻿namespace Project_68.Models
+﻿namespace Project_68_Library.Models
 {
     public class Note: Archive
     {

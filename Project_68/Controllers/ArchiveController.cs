@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Project_68.Models.Repositories;
-using Project_68.Models;
+using Project_68_Library.Models;
+using Project_68_Library.Repositories;
 
 namespace Project_68.Controllers
 {
