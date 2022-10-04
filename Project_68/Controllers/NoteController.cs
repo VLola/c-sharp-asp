@@ -13,45 +13,85 @@ namespace Project_68.Controllers
         {
             _logger = logger;
         }
-        [HttpGet("GetAll")]
-        public IEnumerable<Note> Get()
+
+        // Get all notes
+        [HttpGet("GetAll {token}, {owner}")]
+        public IEnumerable<Note>? GetAll(string token, string owner)
         {
-            return NoteRepository.GetAll();
-        }
-        [HttpGet("Get {id}")]
-        public Note Get(int id)
-        {
-            return NoteRepository.Get(id);
-        }
-        [HttpGet("Get {owner}, {startTime}, {endTime}")]
-        public IEnumerable<Note> Get(string owner, DateTime startTime, DateTime endTime)
-        {
-            List<Note> list = new();
-            foreach (var item in NoteRepository.GetAll())
-            {
-                if (item.Owner == owner && item.CreateTime >= startTime && item.CreateTime <= endTime) list.Add(item);
+            if (UserRepository.CheckUser(owner, token)) {
+                List<Note> list = new(); 
+                foreach (var item in NoteRepository.GetAll())
+                {
+                    if (item.Owner == owner) list.Add(item);
+                }
+                return list;
             }
-            return list;
+            else return null;
         }
-        [HttpPut("Set {owner}, {title}, {text}")]
-        public long Set(string owner, string title, string text)
+
+        // Get id note
+        [HttpGet("Get {token}, {owner}, {id}")]
+        public Note? Get(string token, string owner, int id)
         {
-            return NoteRepository.Set(new Note() { Owner = owner, Title = title, Text = text, CreateTime = DateTime.Now });
-        }
-        [HttpPut("SetArchive {id}")]
-        public bool SetArchive(int id)
-        {
-            if (NoteRepository.Get(id) != null)
-            {
-                ArchiveRepository.Set(NoteRepository.Get(id));
-                return NoteRepository.Del(id);
+            if (UserRepository.CheckUser(owner, token)) {
+                Note note = NoteRepository.Get(id);
+                if (note != null && note.Owner == owner) return note;
+                else return null;
             }
-            return false;
+            else return null;
         }
-        [HttpPut("Delete {id}")]
-        public bool Delete(int id)
+
+        // Get all notes (between start time and end time)
+        [HttpGet("Get {token}, {owner}, {startTime}, {endTime}")]
+        public IEnumerable<Note>? Get(string token, string owner, DateTime startTime, DateTime endTime)
         {
-            return NoteRepository.Del(id);
+            if (UserRepository.CheckUser(owner, token))
+            {
+                List<Note> list = new();
+                foreach (var item in NoteRepository.GetAll())
+                {
+                    if (item.Owner == owner && item.CreateTime >= startTime && item.CreateTime <= endTime) list.Add(item);
+                }
+                return list;
+            }
+            else return null;
+        }
+
+        // Insert note
+        [HttpPut("Insert {token}, {owner}, {title}, {text}")]
+        public long Insert(string token, string owner, string title, string text)
+        {
+            if (UserRepository.CheckUser(owner, token)) return NoteRepository.Insert(new Note() { Owner = owner, Title = title, Text = text, CreateTime = DateTime.Now });
+            else return -1;
+        }
+
+        // Archive note
+        [HttpPut("ArchiveNote {token}, {owner}, {id}")]
+        public bool ArchiveNote(string token, string owner, int id)
+        {
+            if (UserRepository.CheckUser(owner, token))
+            {
+                Note note = NoteRepository.Get(id);
+                if (note != null && note.Owner == owner) {
+                    ArchiveRepository.Insert(note);
+                    return NoteRepository.Delete(id);
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        // Delete note
+        [HttpPut("Delete {token}, {owner}, {id}")]
+        public bool Delete(string token, string owner, int id)
+        {
+            if (UserRepository.CheckUser(owner, token)) {
+
+                Note note = NoteRepository.Get(id);
+                if (note != null && note.Owner == owner) return NoteRepository.Delete(id);
+                else return false;
+            }
+            else return false;
         }
     }
 }

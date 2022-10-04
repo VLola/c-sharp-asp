@@ -8,6 +8,17 @@ namespace Project_68.Models.Repositories
     {
         private static string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=Project_68;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
+        public static bool CheckPassword(string name, string password)
+        {
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                foreach (var item in connection.GetAll<User>())
+                {
+                    if (item.Name == name && BCrypt.Net.BCrypt.Verify(password, item.Password)) return true;
+                }
+            }
+            return false;
+        }
         public static bool CheckUser(string name, string token)
         {
             using (IDbConnection connection = new SqlConnection(connectionString))
@@ -44,11 +55,18 @@ namespace Project_68.Models.Repositories
                 return connection.Get<User>(id);
             }
         }
-        public static long Set(User user)
+        public static long Insert(User user)
         {
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 return connection.Insert(user);
+            }
+        }
+        public static bool Delete(int id)
+        {
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Delete(new User() { Id = id });
             }
         }
     }

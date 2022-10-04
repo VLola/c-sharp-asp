@@ -14,27 +14,52 @@ namespace Project_68.Controllers
             _logger = logger;
         }
 
-        [HttpGet()]
-        public IEnumerable<User> Get(){
+        // Get all users
+        [HttpGet("GetAll")]
+        public IEnumerable<User> GetAll(){
             return UserRepository.GetAll();
         }
 
-        [HttpGet("{id}")]
+        // Get user id
+        [HttpGet("Get {id}")]
         public User Get(int id)
         {
             return UserRepository.Get(id);
         }
 
-        [HttpPut("{name}, {password}")]
-        public long Set(string name, string password)
+        // Insert user
+        [HttpPut("Insert {name}, {password}")]
+        public string Insert(string name, string password)
         {
-            return UserRepository.Set(new User() { 
+            string token = NewToken();
+            UserRepository.Insert(new User() { 
                 Name = name, 
                 Password = BCrypt.Net.BCrypt.HashPassword(password), 
-                Token = NewToken()
+                Token = token
             });
+            return token;
         }
 
+        // Login user
+        [HttpGet("Login {token}, {name}, {password}")]
+        public bool Login(string token, string name, string password)
+        {
+            if (UserRepository.CheckUser(name, token))
+            {
+                if (UserRepository.CheckPassword(name, password)) return true;
+                else return false;
+            }
+            else return false;
+        }
+
+        // Delete user
+        [HttpPut("Delete {id}")]
+        public bool Delete(int id)
+        {
+            return UserRepository.Delete(id);
+        }
+
+        // New token
         private static string NewToken()
         {
             string token;
@@ -45,6 +70,8 @@ namespace Project_68.Controllers
             }
             return token;
         }
+
+        // Random token
         private static string RandomToken()
         {
             string alphabet = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm";
@@ -55,13 +82,6 @@ namespace Project_68.Controllers
             }
             return token;
         }
-        //public static string Generate(string pass)
-        //{
-        //    return BCrypt.Net.BCrypt.HashPassword(pass);
-        //}
-        //public static bool Veryfy(string pass, string hash)
-        //{
-        //    return BCrypt.Net.BCrypt.Verify(pass, hash);
-        //}
+
     }
 }

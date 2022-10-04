@@ -15,7 +15,7 @@ namespace Project_68.Models.Repositories
                 return connection.GetAll<Archive>();
             }
         }
-        public static long Set(Archive archive)
+        public static long Insert(Archive archive)
         {
             using (IDbConnection connection = new SqlConnection(connectionString))
             {

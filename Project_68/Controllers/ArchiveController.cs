@@ -13,10 +13,21 @@ namespace Project_68.Controllers
         {
             _logger = logger;
         }
-        [HttpGet("GetAll")]
-        public IEnumerable<Archive> Get()
+
+        // Get all archives
+        [HttpGet("GetAll {token}, {owner}")]
+        public IEnumerable<Archive>? Get(string token, string owner)
         {
-            return ArchiveRepository.GetAll();
+            if (UserRepository.CheckUser(owner, token))
+            {
+                List<Archive> list = new();
+                foreach (var item in ArchiveRepository.GetAll())
+                {
+                    if (item.Owner == owner) list.Add(item);
+                }
+                return list;
+            }
+            else return null;
         }
     }
 }
