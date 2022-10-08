@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project_68_Library.Models;
 using Project_68_Library.Repositories;
+using System.Collections.Generic;
+using System.Net;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Project_68.Controllers
 {
@@ -16,82 +19,163 @@ namespace Project_68.Controllers
 
         // Get all notes
         [HttpGet("GetAll {token}, {owner}")]
-        public IEnumerable<Note>? GetAll(string token, string owner)
+        public async Task<ActionResult> GetAll(string token, string owner)
         {
-            if (UserRepository.CheckUser(owner, token)) {
-                List<Note> list = new(); 
-                foreach (var item in NoteRepository.GetAll())
+            Task<ActionResult> task = new Task<ActionResult>(() =>
+            {
+                try
                 {
-                    if (item.Owner == owner) list.Add(item);
+                    if (UserRepository.CheckUser(owner, token))
+                    {
+                        List<Note> list = new();
+                        foreach (var item in NoteRepository.GetAll())
+                        {
+                            if (item.Owner == owner) list.Add(item);
+                        }
+                        if (list.Count > 0) return Ok(list);
+                        else return NoContent();
+                    }
+                    else return NotFound();
                 }
-                return list;
-            }
-            else return null;
+                catch
+                {
+                    return BadRequest();
+                }
+            });
+            task.Start();
+            return await task;
         }
 
         // Get id note
         [HttpGet("Get {token}, {owner}, {id}")]
-        public Note? Get(string token, string owner, int id)
+        public async Task<ActionResult> Get(string token, string owner, int id)
         {
-            if (UserRepository.CheckUser(owner, token)) {
-                Note note = NoteRepository.Get(id);
-                if (note != null && note.Owner == owner) return note;
-                else return null;
-            }
-            else return null;
-        }
-
-        // Get all notes (between start time and end time)
-        [HttpGet("Get {token}, {owner}, {startTime}, {endTime}")]
-        public IEnumerable<Note>? Get(string token, string owner, DateTime startTime, DateTime endTime)
-        {
-            if (UserRepository.CheckUser(owner, token))
+            Task<ActionResult> task = new Task<ActionResult>(() =>
             {
-                List<Note> list = new();
-                foreach (var item in NoteRepository.GetAll())
+                try
                 {
-                    if (item.Owner == owner && item.CreateTime >= startTime && item.CreateTime <= endTime) list.Add(item);
+                    if (UserRepository.CheckUser(owner, token))
+                    {
+                        Note note = NoteRepository.Get(id);
+                        if (note != null && note.Owner == owner) return Ok(note);
+                        else return NoContent();
+                    }
+                    else return NotFound();
                 }
-                return list;
-            }
-            else return null;
+                catch
+                {
+                    return BadRequest();
+                }
+            });
+            task.Start();
+            return await task;
+        }
+        // Get notes between start time and end time
+        [HttpGet("{token}, {owner}, {startTime}, {endTime}")]
+        public async Task<ActionResult> Get(string token, string owner, DateTime startTime, DateTime endTime)
+        {
+            Task<ActionResult> task = new Task<ActionResult>(() =>
+            {
+                try
+                {
+                    if (UserRepository.CheckUser(owner, token))
+                    {
+                        List<Note> list = new();
+                        foreach (var item in NoteRepository.GetAll())
+                        {
+                            if (item.Owner == owner && item.CreateTime >= startTime && item.CreateTime <= endTime) list.Add(item);
+                        }
+                        if (list.Count > 0) return Ok(list);
+                        else return NoContent();
+                    }
+                    else return NotFound();
+                }
+                catch
+                {
+                    return BadRequest();
+                }
+            });
+            task.Start();
+            return await task;
         }
 
         // Insert note
         [HttpPut("Insert {token}, {owner}, {title}, {text}")]
-        public long Insert(string token, string owner, string title, string text)
+        public async Task<ActionResult> Insert(string token, string owner, string title, string text)
         {
-            if (UserRepository.CheckUser(owner, token)) return NoteRepository.Insert(new Note() { Owner = owner, Title = title, Text = text, CreateTime = DateTime.Now });
-            else return -1;
+            Task<ActionResult> task = new Task<ActionResult>(() =>
+            {
+                try
+                {
+                    if (UserRepository.CheckUser(owner, token)) return Ok(NoteRepository.Insert(new Note() { Owner = owner, Title = title, Text = text, CreateTime = DateTime.Now }));
+                    else return NotFound();
+                }
+                catch
+                {
+                    return BadRequest();
+                }
+            });
+            task.Start();
+            return await task;
         }
 
         // Archive note
         [HttpPut("ArchiveNote {token}, {owner}, {id}")]
-        public bool ArchiveNote(string token, string owner, int id)
+        public async Task<ActionResult> ArchiveNote(string token, string owner, int id)
         {
-            if (UserRepository.CheckUser(owner, token))
+            Task<ActionResult> task = new Task<ActionResult>(()=>
             {
-                Note note = NoteRepository.Get(id);
-                if (note != null && note.Owner == owner) {
-                    ArchiveRepository.Insert(note);
-                    return NoteRepository.Delete(id);
+                try
+                {
+                    if (UserRepository.CheckUser(owner, token))
+                    {
+                        Note note = NoteRepository.Get(id);
+                        if (note != null && note.Owner == owner)
+                        {
+                            if (NoteRepository.Delete(id))
+                            {
+                                ArchiveRepository.Insert(note);
+                                return Ok(true);
+                            }
+                            else return Ok(false);
+                        }
+                        else return NoContent();
+                    }
+                    else return NotFound();
                 }
-                else return false;
-            }
-            else return false;
+                catch
+                {
+                    return BadRequest();
+                }
+            });
+            task.Start();
+            return await task;
         }
 
         // Delete note
-        [HttpPut("Delete {token}, {owner}, {id}")]
-        public bool Delete(string token, string owner, int id)
+        [HttpDelete("Delete {token}, {owner}, {id}")]
+        public async Task<ActionResult> Delete(string token, string owner, int id)
         {
-            if (UserRepository.CheckUser(owner, token)) {
+            Task<ActionResult> task = new Task<ActionResult>(() =>
+            {
+                try
+                {
+                    if (UserRepository.CheckUser(owner, token))
+                    {
 
-                Note note = NoteRepository.Get(id);
-                if (note != null && note.Owner == owner) return NoteRepository.Delete(id);
-                else return false;
-            }
-            else return false;
+                        Note note = NoteRepository.Get(id);
+                        if (note != null && note.Owner == owner) return Ok(NoteRepository.Delete(id));
+                        else return NoContent();
+                    }
+                    else return NotFound();
+                }
+                catch
+                {
+                    return BadRequest();
+                }
+            });
+            task.Start();
+            return await task;
         }
     }
 }
