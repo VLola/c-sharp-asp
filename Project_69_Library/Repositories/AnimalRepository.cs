@@ -5,10 +5,10 @@ namespace Project_69_Library.Repositories
 {
     public class AnimalRepository
     {
-        public static void Add(Animal animal)
+        public static void Add(string name)
         {
             DB db = new DB();
-            db.Animals.Add(animal);
+            db.Animals.Add(new() { Name = name });
             db.SaveChanges();
         }
         public static IEnumerable<Animal> GetAll() => new DB().Animals;

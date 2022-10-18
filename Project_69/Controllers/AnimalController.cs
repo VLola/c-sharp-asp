@@ -17,9 +17,7 @@ namespace Project_69.Controllers
         [HttpPost("{name}")]
         public void Add(string name)
         {
-            Animal animal = new Animal();
-            animal.Name = name;
-            AnimalRepository.Add(animal);
+            AnimalRepository.Add(name);
         }
     }
 }

@@ -12,8 +12,8 @@ using Project_69_Library.Context;
 namespace Project_69_Library.Migrations
 {
     [DbContext(typeof(DB))]
-    [Migration("20221018200324_Mig_3")]
-    partial class Mig_3
+    [Migration("20221018204101_Mig_1")]
+    partial class Mig_1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,7 +50,6 @@ namespace Project_69_Library.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("AnimalId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -59,6 +58,10 @@ namespace Project_69_Library.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UrlImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -71,9 +74,7 @@ namespace Project_69_Library.Migrations
                 {
                     b.HasOne("Project_69_Library.Models.Animal", "Animal")
                         .WithMany("Foods")
-                        .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AnimalId");
 
                     b.Navigation("Animal");
                 });
