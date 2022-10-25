@@ -8,16 +8,24 @@ namespace Project_69.Controllers
     [Route("[controller]")]
     public class FoodController : Controller
     {
-        [HttpGet]
+        [HttpGet("GetFoods")]
         public IEnumerable<Food> Get()
         {
             return FoodRepository.GetAll();
         }
 
-        [HttpPost("{animalName}, {foodName}, {price}, {urlImage}")]
-        public void Add(string animalName, string foodName, decimal price, string urlImage)
+        [HttpPost("AddFood")]
+        public IActionResult Add([FromForm] Data data)
         {
-            FoodRepository.Add(animalName, foodName, price, urlImage);
+            FoodRepository.Add(data.AnimalName, data.FoodName, data.Price, data.UrlImage);
+            return Ok();
+        }
+        public class Data
+        {
+            public string AnimalName { get; set; }
+            public string FoodName { get; set; }
+            public decimal Price { get; set; }
+            public string UrlImage { get; set; }
         }
     }
 }
