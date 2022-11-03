@@ -12,5 +12,24 @@ namespace Project_71_Library.Repositories
         }
         public User? Get(int id) => context.Users.Find(id);
         public IEnumerable<User> GetAll() => context.Users;
+
+        public int Add(User user)
+        {
+            SmarterContext db = new SmarterContext();
+            db.Users.Add(user);
+            db.SaveChanges();
+            return user.Id;
+        }
+        public bool Delete(int id)
+        {
+            User? user = context.Users.Find(id);
+            if (user != null)
+            {
+                context.Users.Remove(user);
+                context.SaveChanges();
+                return true;
+            }
+            else return false;
+        }
     }
 }
