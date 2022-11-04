@@ -15,11 +15,19 @@ namespace Project_71_Library.Repositories
 
         public int Add(User user)
         {
-            SmarterContext db = new SmarterContext();
-            db.Users.Add(user);
-            db.SaveChanges();
+            context.Users.Add(user);
+            context.SaveChanges();
             return user.Id;
         }
+        public bool FindName(string name)
+        {
+            User? user = context.Users.FirstOrDefault(item=>item.Name == name);
+            if (user != null) return true;
+            else return false;
+        }
+
+
+
         public bool Delete(int id)
         {
             User? user = context.Users.Find(id);

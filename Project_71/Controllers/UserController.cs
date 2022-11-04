@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project_71_Library.Models;
 using Project_71_Library.UnitOfWorks;
+using System.Net;
 
 namespace Project_71.Controllers
 {
@@ -20,9 +21,26 @@ namespace Project_71.Controllers
         public object GetId(int id) => work.UserRepo.Get(id); 
         
         [HttpPost("Add")]
-        public object Add([FromForm] User user)
+        public HttpStatusCode Add([FromForm] User user)
         {
-            return work.UserRepo.Add(user);
+            if (!TryValidateModel(user, nameof(User)))
+                return HttpStatusCode.BadRequest;
+            ModelState.ClearValidationState(nameof(User));
+            if (work.UserRepo.FindName(user.Name))
+            {
+                return HttpStatusCode.Conflict;
+            }
+            else
+            {
+                if (work.UserRepo.Add(user) > 0)
+                {
+                    return HttpStatusCode.Created;
+                }
+                else
+                {
+                    return HttpStatusCode.NoContent;
+                }
+            }
         }
 
         [HttpDelete("Delete")]
