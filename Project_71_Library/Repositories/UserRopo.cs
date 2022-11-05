@@ -1,5 +1,6 @@
 ﻿using Project_71_Library.Contexts;
 using Project_71_Library.Models;
+using System.Xml.Linq;
 
 namespace Project_71_Library.Repositories
 {
@@ -19,14 +20,29 @@ namespace Project_71_Library.Repositories
             context.SaveChanges();
             return user.Id;
         }
-        public bool FindName(string name)
+        public bool CheckName(string name)
         {
             User? user = context.Users.FirstOrDefault(item=>item.Name == name);
             if (user != null) return true;
             else return false;
         }
 
-
+        public bool CheckUser(string name, string password)
+        {
+            User? user = context.Users.FirstOrDefault(item => item.Name == name && item.Password == password);
+            if (user != null) return true;
+            else return false;
+        }
+        public bool Update(string name, string password)
+        {
+            User? user = context.Users.FirstOrDefault(item => item.Name == name);
+            if (user != null) {
+                user.Password = password;
+                context.SaveChanges();
+                return true;
+            }
+            else return false;
+        }
 
         public bool Delete(int id)
         {

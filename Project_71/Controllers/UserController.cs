@@ -18,15 +18,15 @@ namespace Project_71.Controllers
         public IEnumerable<object> GetAll() => work.UserRepo.GetAll();
 
         [HttpGet("GetId")]
-        public object GetId(int id) => work.UserRepo.Get(id); 
-        
+        public object GetId(int id) => work.UserRepo.Get(id);
+
         [HttpPost("Add")]
         public HttpStatusCode Add([FromForm] User user)
         {
             if (!TryValidateModel(user, nameof(User)))
                 return HttpStatusCode.BadRequest;
             ModelState.ClearValidationState(nameof(User));
-            if (work.UserRepo.FindName(user.Name))
+            if (work.UserRepo.CheckName(user.Name))
             {
                 return HttpStatusCode.Conflict;
             }
@@ -41,6 +41,28 @@ namespace Project_71.Controllers
                     return HttpStatusCode.NoContent;
                 }
             }
+        }
+
+        [HttpPost("Login")]
+        public HttpStatusCode Login([FromForm] User user)
+        {
+            if (!TryValidateModel(user, nameof(User)))
+                return HttpStatusCode.BadRequest;
+            ModelState.ClearValidationState(nameof(User));
+            if (work.UserRepo.CheckUser(user.Name, user.Password)) return HttpStatusCode.OK;
+            else return HttpStatusCode.NoContent;
+        }
+
+        [HttpPost("Repassword")]
+        public HttpStatusCode Repassword([FromForm] User user)
+        {
+            if (!TryValidateModel(user, nameof(User)))
+                return HttpStatusCode.BadRequest;
+            ModelState.ClearValidationState(nameof(User));
+            if (work.UserRepo.Update(user.Name, user.Password)) {
+                return HttpStatusCode.OK;
+            }
+            else return HttpStatusCode.NoContent;
         }
 
         [HttpDelete("Delete")]
