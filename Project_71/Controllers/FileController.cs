@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Project_71.Controllers
 {
@@ -9,7 +10,7 @@ namespace Project_71.Controllers
     {
         string path = Directory.GetCurrentDirectory() + "/www/Files/";
         [HttpPost("Add")]
-        public async Task<IActionResult> OnPostUploadAsync(IFormFile file)
+        public HttpStatusCode OnPostUploadAsync(IFormFile file)
         {
             FileInfo fi = new FileInfo(file.FileName);
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -17,10 +18,10 @@ namespace Project_71.Controllers
             {
                 using (var stream = System.IO.File.Create(RandomName(fi.Extension)))
                 {
-                    await file.CopyToAsync(stream);
+                    file.CopyToAsync(stream);
                 }
             }
-            return Ok();
+            return HttpStatusCode.OK;
         }
         private string RandomName(string extenc)
         {
