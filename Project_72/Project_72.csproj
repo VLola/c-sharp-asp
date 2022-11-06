@@ -11,11 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Project_71_Library\Project_71_Library.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="www\Files\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

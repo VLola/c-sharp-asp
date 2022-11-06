@@ -1,8 +1,9 @@
-﻿using Project_71_Library.Contexts;
+﻿using Project_71.Contexts;
 using Project_71_Library.Models;
+using Project_71_Library.Repositories;
 using System.Xml.Linq;
 
-namespace Project_71_Library.Repositories
+namespace Project_71.Repositories
 {
     public class UserRepo : IRepo<User>
     {

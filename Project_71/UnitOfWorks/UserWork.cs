@@ -1,7 +1,7 @@
-﻿using Project_71_Library.Contexts;
-using Project_71_Library.Repositories;
+﻿using Project_71.Contexts;
+using Project_71.Repositories;
 
-namespace Project_71_Library.UnitOfWorks
+namespace Project_71.UnitOfWorks
 {
     public class UserWork
     {
