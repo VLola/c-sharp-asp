@@ -14,18 +14,34 @@ namespace Project_72.Controllers
         {
             repo = new FileRepo();
         }
+
+        [HttpGet("GetAll")]
+        public IEnumerable<string> GetAll()
+        {
+            return repo.GetAll();
+        }
+
+        [HttpGet("GetFile")]
+        public object GetFile(string name)
+        {
+            return repo.GetFile(name);
+        }
+
         [HttpPost("Add")]
         public HttpStatusCode OnPostUploadAsync(IFormFile file)
         {
-            FileInfo fi = new FileInfo(file.FileName);
-            if (file.Length > 0)
-            {
-                using (var stream = System.IO.File.Create(repo.RandomName(fi.Extension)))
-                {
-                    file.CopyToAsync(stream);
-                }
-            }
-            return HttpStatusCode.OK;
+            if (!TryValidateModel(file, nameof(IFormFile)))
+                return HttpStatusCode.BadRequest;
+            ModelState.ClearValidationState(nameof(IFormFile));
+            if (repo.Add(file)) return HttpStatusCode.Created;
+            else return HttpStatusCode.BadRequest;
+        }
+
+        [HttpDelete("Delete")]
+        public HttpStatusCode Delete(string name)
+        {
+            if (repo.Delete(name)) return HttpStatusCode.OK;
+            else return HttpStatusCode.NotFound;
         }
     }
 }
