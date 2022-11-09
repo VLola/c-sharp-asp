@@ -16,9 +16,9 @@ namespace Project_72.Controllers
         }
 
         [HttpGet("GetAll")]
-        public IEnumerable<string> GetAll()
+        public IEnumerable<Models.File> GetAll(DateTime start, DateTime end)
         {
-            return repo.GetAll();
+            return repo.GetAll(start, end.AddDays(1));
         }
 
         [HttpGet("GetFile")]

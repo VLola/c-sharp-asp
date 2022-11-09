@@ -9,9 +9,9 @@ namespace Project_72.Repositories
         {
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
         }
-        public IEnumerable<string> GetAll()
+        public IEnumerable<Models.File> GetAll(DateTime start, DateTime end)
         {
-            return new DirectoryInfo(path).GetFiles().Select(item => item.Name);
+            return new DirectoryInfo(path).GetFiles().Where(item=>item.LastWriteTime <= end && item.LastWriteTime >= start).Select(item => new Models.File(item.Name, item.LastWriteTime, item.Length));
         }
         public bool Add(IFormFile file)
         {
