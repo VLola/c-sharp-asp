@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project_72.Repositories;
 using System.Net;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace Project_72.Controllers
 {
@@ -21,11 +22,23 @@ namespace Project_72.Controllers
             return repo.GetAll(start, end.AddDays(1));
         }
 
+        string filePath = Directory.GetCurrentDirectory() + "/www/Files/";
         [HttpGet("GetFile")]
-        public object GetFile(string name)
+        public async Task<ActionResult> GetFile(string name)
         {
-            return repo.GetFile(name);
+            var provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(filePath + name, out var contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+
+            var bytes = await System.IO.File.ReadAllBytesAsync(filePath + name);
+            return File(bytes, contentType, Path.GetFileName(filePath + name));
         }
+        //public object GetFile(string name)
+        //{
+        //    return repo.GetFile(name);
+        //}
 
         [HttpPost("Add")]
         public HttpStatusCode OnPostUploadAsync(IFormFile file)
