@@ -7,7 +7,14 @@ function AddProduct(){
         productStock: $("#productStock").val()
     }).done(function(data) {
         console.log(data);
-        GetProducts();
+        AdminGetProducts();
+    });
+}
+
+function UpdateProduct(product){
+    $.post( "/api/ProductNotRedis/UpdateProduct", product).done(function(data) {
+        console.log(data);
+        AdminGetProducts();
     });
 }
 
@@ -15,12 +22,12 @@ function DeleteProduct(id){
     $.ajax({
         url: "/api/ProductNotRedis/DeleteProduct?id=" + id,
         type: "DELETE",
-        success: function() {
-            console.log("Deleted successfully.");
+        success: function(data) {
+            console.log(data);
             AdminGetProducts();
         },
-        error: function() {
-            console.error("Error delete!");
+        error: function(data) {
+            console.error(data);
         }
     });
 }
@@ -32,29 +39,51 @@ function AdminGetProducts(){
         for (const iterator of data) {
         let product = $("<div></div>").addClass('card shadow').css('margin', '1rem').css('width', '18rem').css('height', '25rem');
         let productBody = $("<div></div>").addClass('card-body d-flex flex-column p-3 shadow');
-        let productName = $("<h5></h5>").addClass('card-title w-75').css('height', '4.8rem').css('overflow', 'hidden').text(`${iterator['productName']}`);
-        let divStock = $("<div></div>").addClass('position-absolute w-100 p-3');
-        let productStock = $("<h6></h6>").addClass('float-end bg-secondary p-2 rounded text-white').text(`-${iterator['productStock']} %`);
-        let productDescription = $("<small></small>").addClass('card-title text-secondary').css('height', '10.2rem').css('overflow', 'hidden').text(`${iterator['productDescription']}`);
-        let productCost = $("<del></del>").addClass('card-text text-secondary mt-auto').text(`${iterator['productCost']} грн.`);
-        let productCostStock = $("<h5></h5>").addClass('card-title').text(`${Math.round(iterator['productCost'] - (iterator['productCost'] / 100 * iterator['productStock']))} грн.`);
-        let cartButton = $("<button></button>").addClass('btn btn-outline-dark btn-lg').text("Delete").click(()=>{
+        let productName = $("<textarea></textarea>").addClass('my-1').css('height', '3rem').val(iterator['productName']);
+        let productDescription = $("<textarea></textarea>").addClass('my-1').css('height', '3rem').val(`${iterator['productDescription']}`);
+        let productCostStock = $("<h5></h5>").addClass('mt-auto').text(`${Math.round(iterator['productCost'] - (iterator['productCost'] / 100 * iterator['productStock']))} грн.`);
+        let deleteButton = $("<button></button>").addClass('btn btn-outline-dark btn-lg w-50 m-1').text("Delete").click(()=>{
             DeleteProduct(iterator['productId']);
         });
+        let updateButton = $("<button></button>").addClass('btn btn-outline-dark btn-lg w-50 m-1').text("Update").click(()=>{
+            iterator['productName'] = productName.val();
+            iterator['productDescription'] = productDescription.val();
+            iterator['productStock'] = productStock.val();
+            iterator['productCost'] = productCost.val();
+            UpdateProduct(iterator);
+        });
+        let divButtons = $("<div></div>").addClass('d-flex w-100');
 
-        divStock.append(productStock);
-        product.append(divStock);
+        let productStock = $("<input></input>").addClass('my-1').val(iterator['productStock']).change(()=>{
+            productCostStock.text(`${Math.round(productCost.val() - (productCost.val() / 100 * productStock.val()))} грн.`);
+        });
+        let productCost = $("<input></input>").addClass('my-1').val(iterator['productCost']).change(()=>{
+            productCostStock.text(`${Math.round(productCost.val() - (productCost.val() / 100 * productStock.val()))} грн.`);
+        });
+
+        let titleName = $("<small></small>").text("Name:");
+        let titleDescription = $("<small></small>").text("Description:");
+        let titleCost = $("<small></small>").text("Cost:");
+        let titleStock = $("<small></small>").text("Stock:");
+        
+        productBody.append(titleName);
         productBody.append(productName);
+        productBody.append(titleDescription);
         productBody.append(productDescription);
+        productBody.append(titleCost);
         productBody.append(productCost);
+        productBody.append(titleStock);
+        productBody.append(productStock);
         productBody.append(productCostStock);
-        productBody.append(cartButton);
+        divButtons.append(updateButton);
+        divButtons.append(deleteButton);
+        productBody.append(divButtons);
         product.append(productBody);
         $("#productForm").append(product);
     }
     })
     .fail(() =>{
-        console.warn(data.status);
+        console.warn(data);
     });
 }
 
@@ -139,27 +168,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
             else  // если произошла ошибка, получаем код статуса
                 console.log("Status: ", response.status);
         });
- 
-        // // кнопка для обращения по пути "/data" для получения данных
-        // document.getElementById("getData").addEventListener("click", async e => {
-        //     e.preventDefault();
-        //     // получаем токен из sessionStorage
-        //     const token = sessionStorage.getItem(tokenKey);
-        //     // отправляем запрос к "/data
-        //     const response = await fetch("/api/ProductNotRedis/ProductsList", {
-        //         method: "GET",
-        //         headers: {
-        //             "Accept": "application/json",
-        //             "Authorization": "Bearer " + token  // передача токена в заголовке
-        //         }
-        //     });
- 
-        //     if (response.ok === true) {
-        //         const data = await response.json();
-        //         console.log(data);
-        //     }
-        //     else console.log("Status: ", response.status);
-        // });
  
         // // условный выход - просто удаляем токен и меняем видимость блоков
         document.getElementById("buttonLogOut").addEventListener("click", e => {
