@@ -1,60 +1,115 @@
-async function GetProducts(){
-
-    const response = await fetch("/api/ProductNotRedis/ProductsList", {
-        method: "GET"
+function AddProduct(){
+    $.post( "/api/ProductNotRedis/CreateProduct",
+    {
+        productName: $("#productName").val(),
+        productDescription: $("#productDescription").val(),
+        productCost: $("#productCost").val(),
+        productStock: $("#productStock").val()
+    }).done(function(data) {
+        console.log(data);
+        GetProducts();
     });
+}
 
-    if (response.ok === true) {
-        const data = await response.json();
-
-        for (const iterator of data) {
-            let product = $("<div></div>").addClass('card shadow').css('margin', '1rem').css('width', '18rem').css('height', '25rem');
-            let productBody = $("<div></div>").addClass('card-body d-flex flex-column p-3 shadow');
-            let productName = $("<h5></h5>").addClass('card-title w-75').css('height', '4.8rem').css('overflow', 'hidden').text(`${iterator['productName']}`);
-            let divStock = $("<div></div>").addClass('position-absolute w-100 p-3');
-            let productStock = $("<h5></h5>").addClass('float-end bg-secondary p-2 rounded text-white').text(`-${iterator['productStock']} %`);
-            let productDescription = $("<small></small>").addClass('card-title text-secondary').css('height', '10.2rem').css('overflow', 'hidden').text(`${iterator['productDescription']}`);
-            let productCost = $("<del></del>").addClass('card-text text-secondary mt-auto').text(`${iterator['productCost']} грн.`);
-            let productCostStock = $("<h5></h5>").addClass('card-title').text(`${Math.round(iterator['productCost'] - (iterator['productCost'] / 100 * iterator['productStock']))} грн.`);
-            let cartButton = $("<button></button>").addClass('btn btn-outline-dark btn-lg').text("Buy");
-
-            divStock.append(productStock);
-            product.append(divStock);
-            productBody.append(productName);
-            productBody.append(productDescription);
-            productBody.append(productCost);
-            productBody.append(productCostStock);
-            productBody.append(cartButton);
-            product.append(productBody);
-            $("#productForm").append(product);
+function DeleteProduct(id){
+    $.ajax({
+        url: "/api/ProductNotRedis/DeleteProduct?id=" + id,
+        type: "DELETE",
+        success: function() {
+            console.log("Deleted successfully.");
+            AdminGetProducts();
+        },
+        error: function() {
+            console.error("Error delete!");
         }
-            
+    });
+}
+
+function AdminGetProducts(){
+    $("#productForm").children().remove();
+    $.get("/api/ProductNotRedis/ProductsList")
+    .done((data) =>{
+        for (const iterator of data) {
+        let product = $("<div></div>").addClass('card shadow').css('margin', '1rem').css('width', '18rem').css('height', '25rem');
+        let productBody = $("<div></div>").addClass('card-body d-flex flex-column p-3 shadow');
+        let productName = $("<h5></h5>").addClass('card-title w-75').css('height', '4.8rem').css('overflow', 'hidden').text(`${iterator['productName']}`);
+        let divStock = $("<div></div>").addClass('position-absolute w-100 p-3');
+        let productStock = $("<h6></h6>").addClass('float-end bg-secondary p-2 rounded text-white').text(`-${iterator['productStock']} %`);
+        let productDescription = $("<small></small>").addClass('card-title text-secondary').css('height', '10.2rem').css('overflow', 'hidden').text(`${iterator['productDescription']}`);
+        let productCost = $("<del></del>").addClass('card-text text-secondary mt-auto').text(`${iterator['productCost']} грн.`);
+        let productCostStock = $("<h5></h5>").addClass('card-title').text(`${Math.round(iterator['productCost'] - (iterator['productCost'] / 100 * iterator['productStock']))} грн.`);
+        let cartButton = $("<button></button>").addClass('btn btn-outline-dark btn-lg').text("Delete").click(()=>{
+            DeleteProduct(iterator['productId']);
+        });
+
+        divStock.append(productStock);
+        product.append(divStock);
+        productBody.append(productName);
+        productBody.append(productDescription);
+        productBody.append(productCost);
+        productBody.append(productCostStock);
+        productBody.append(cartButton);
+        product.append(productBody);
+        $("#productForm").append(product);
     }
-    else console.log("Status: ", response.status);
+    })
+    .fail(() =>{
+        console.warn(data.status);
+    });
+}
+
+function GetProducts(){
+    $("#productForm").children().remove();
+    $.get("/api/ProductNotRedis/ProductsList")
+    .done((data) =>{
+        for (const iterator of data) {
+        let product = $("<div></div>").addClass('card shadow').css('margin', '1rem').css('width', '18rem').css('height', '25rem');
+        let productBody = $("<div></div>").addClass('card-body d-flex flex-column p-3 shadow');
+        let productName = $("<h5></h5>").addClass('card-title w-75').css('height', '4.8rem').css('overflow', 'hidden').text(`${iterator['productName']}`);
+        let divStock = $("<div></div>").addClass('position-absolute w-100 p-3');
+        let productStock = $("<h6></h6>").addClass('float-end bg-secondary p-2 rounded text-white').text(`-${iterator['productStock']} %`);
+        let productDescription = $("<small></small>").addClass('card-title text-secondary').css('height', '10.2rem').css('overflow', 'hidden').text(`${iterator['productDescription']}`);
+        let productCost = $("<del></del>").addClass('card-text text-secondary mt-auto').text(`${iterator['productCost']} грн.`);
+        let productCostStock = $("<h5></h5>").addClass('card-title').text(`${Math.round(iterator['productCost'] - (iterator['productCost'] / 100 * iterator['productStock']))} грн.`);
+        let cartButton = $("<button></button>").addClass('btn btn-outline-dark btn-lg').text("Buy");
+
+        divStock.append(productStock);
+        product.append(divStock);
+        productBody.append(productName);
+        productBody.append(productDescription);
+        productBody.append(productCost);
+        productBody.append(productCostStock);
+        productBody.append(cartButton);
+        product.append(productBody);
+        $("#productForm").append(product);
+    }
+    })
+    .fail(() =>{
+        console.warn(data.status);
+    });
 }
 
 function SignIn(){
-    $("#buttonSignIn").css('display', 'none');
     $("#loginForm").css('display', 'block');
     $("#productForm").css('filter', 'blur(5px)');
+    $("#buttonSignIn").css('display', 'none');
 }
 
 function CloseSignIn(){
-    $("#buttonSignIn").css('display', 'block');
     $("#loginForm").css('display', 'none');
     $("#productForm").css('filter', 'blur(0px)');
+    $("#buttonSignIn").css('display', 'block');
 }
 
 function Login(){
     $("#loginForm").css('display', 'none');
     $("#userInfo").css('display', 'block');
-    $("#buttonLogOut").css('display', 'block');
     $("#productForm").css('filter', 'blur(0px)');
+    AdminGetProducts();
 }
 
 function Exit(){
     $("#userInfo").css('display', 'none');
-    $("#buttonLogOut").css('display', 'none');
     $("#buttonSignIn").css('display', 'block');
 }
 
@@ -120,6 +175,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
         $("#buttonLoginClose").click(()=>{
             CloseSignIn();
+        });
+
+        $("#buttonAddProduct").click(()=>{
+            AddProduct();
         });
 
         GetProducts();

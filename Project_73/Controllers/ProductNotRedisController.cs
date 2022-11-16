@@ -33,16 +33,16 @@ namespace Project_73.Controllers
 
         [HttpPost]
         [Route("CreateProduct")]
-        public async Task<ActionResult<Product>> POST(Product product)
+        public async Task<ActionResult> POST([FromForm]Product product)
         {
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = product.ProductId }, product);
+            return Ok();
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("DeleteProduct")]
-        public async Task<ActionResult<IEnumerable<Product>>> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
@@ -51,18 +51,14 @@ namespace Project_73.Controllers
             }
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
-            return await _context.Products.ToListAsync();
+            return Ok();
         }
 
         [HttpPost]
         [Route("UpdateProduct")]
-        public async Task<ActionResult<IEnumerable<Product>>> Update(int id, Product product)
+        public async Task<ActionResult> Update([FromForm]Product product)
         {
-            if (id != product.ProductId)
-            {
-                return BadRequest();
-            }
-            var productData = await _context.Products.FindAsync(id);
+            var productData = await _context.Products.FindAsync(product.ProductId);
             if (productData == null)
             {
                 return NotFound();
@@ -72,7 +68,7 @@ namespace Project_73.Controllers
             productData.ProductName = product.ProductName;
             productData.ProductStock = product.ProductStock;
             await _context.SaveChangesAsync();
-            return await _context.Products.ToListAsync();
+            return Ok();
         }
     }
 }

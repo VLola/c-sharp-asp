@@ -11,16 +11,15 @@
 </head>
 <body>
     <section class="vh-100">
-      <div  class="container h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100 ">
+      <div  class="container-fluid h-100">
 
-          <div class="position-absolute h-100">
-            <button class="btn btn-outline-dark btn-lg px-5 float-end m-5" id="buttonSignIn">Sign in</button>
-            <button class="btn btn-outline-dark btn-lg px-5 float-end m-5" id="buttonLogOut" style="display:none;">Log out</button>
+        <div class="fixed-top h-100 w-25">
+
+          <div class="d-flex w-100 p-3 justify-content-center">
+            <button class="btn btn-outline-dark btn-lg px-5" id="buttonSignIn">Sign in</button>
           </div>
 
-
-			    <div id="userInfo" class="fixed-top h-100 w-25 my-5" style="display:none;">
+          <div id="userInfo" style="display:none;">
 
             <div class="d-flex w-100 p-3">
               <h3 class="w-50 align-self-center">Name:</h3>
@@ -28,7 +27,7 @@
                 <input type="text" class="form-control form-control-lg border-secondary" id="productName">
               </div>
             </div>
-
+  
             <div class="d-flex w-100 p-3">
               <h3 class="w-50 align-self-center">Description:</h3>
               <div class="w-50">
@@ -51,14 +50,21 @@
             </div>
             <div class="w-100 p-3">
               <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonAddProduct">Add product</button>
+              <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonLogOut">Log out</button>
             </div>
-
+  
               <div class="form-outline form-white mb-4 mt-4">
                 <input type="submit" id="getData"  class="form-control" value="Получить данные" class="btn btn-outline-light btn-lg px-5"/>
               </div>
           </div>
 
-          <div id="productForm" class="d-flex flex-wrap w-75"></div>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center h-100 w-100">
+
+          <div class="d-flex justify-content-end h-100 w-100">
+            <div id="productForm" class="d-flex flex-wrap w-75"></div>
+          </div>
           <!-- Form Login -->
 
           <div id="loginForm" class="w-25 position-absolute" style="display:none;">
@@ -85,9 +91,8 @@
               </div>
             </div>
           </div>
-
-          
         </div>
+
       </div>
     </section>
 </body>
