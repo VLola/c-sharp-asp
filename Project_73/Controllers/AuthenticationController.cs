@@ -18,7 +18,7 @@ namespace Project_73.Controllers
             {
                 return BadRequest("Invalid user request!!!");
             }
-            if (user.UserName == "Jaydeep" && user.Password == "Pass@777")
+            if (user.UserName == "valik" && user.Password == "12345")
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationManager.AppSetting["JWT:Secret"]));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);

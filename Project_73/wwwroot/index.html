@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="script.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <section class="vh-100">
+      <div  class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100 ">
+
+          <div class="position-absolute h-100">
+            <button class="btn btn-outline-dark btn-lg px-5 float-end m-5" id="buttonSignIn">Sign in</button>
+            <button class="btn btn-outline-dark btn-lg px-5 float-end m-5" id="buttonLogOut" style="display:none;">Log out</button>
+          </div>
+
+
+			    <div id="userInfo" class="fixed-top h-100 w-25 my-5" style="display:none;">
+
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Name:</h3>
+              <div class="w-50">
+                <input type="text" class="form-control form-control-lg border-secondary" id="productName">
+              </div>
+            </div>
+
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Description:</h3>
+              <div class="w-50">
+                <textarea class="form-control border-secondary" id="productDescription"></textarea>
+              </div>
+            </div>
+            
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Cost:</h3>
+              <div class="w-50">
+                <input type="text" class="form-control form-control-lg border-secondary" id="productCost">
+              </div>
+            </div>
+            
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Stock:</h3>
+              <div class="w-50">
+                <input type="text" class="form-control form-control-lg border-secondary" id="productStock">
+              </div>
+            </div>
+            <div class="w-100 p-3">
+              <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonAddProduct">Add product</button>
+            </div>
+
+              <div class="form-outline form-white mb-4 mt-4">
+                <input type="submit" id="getData"  class="form-control" value="Получить данные" class="btn btn-outline-light btn-lg px-5"/>
+              </div>
+          </div>
+
+          <div id="productForm" class="d-flex flex-wrap w-75"></div>
+          <!-- Form Login -->
+
+          <div id="loginForm" class="w-25 position-absolute" style="display:none;">
+            <div class="card bg-dark text-white" style="border-radius: 1rem;">
+              <div class="card-body p-5 text-center justify-content-center">
+
+                <div class="position-absolute w-100 px-5">
+                  <button class="btn btn-outline-light btn-close bg-light float-end me-5" id="buttonLoginClose"></button>
+                </div>
+    
+                <h2 class="fw-bold mb-2 text-uppercase" id="typeTitle">Login</h2>
+                <p class="mb-5" id="typeText" style="opacity: 0.7;">Please enter your email and password!</p>
+    
+                <div class="form-outline form-white mb-4">
+                  <input type="email" id="email" class="form-control form-control-lg" placeholder="Email"/>
+                </div>
+    
+                <div class="form-outline form-white mb-4">
+                  <input type="password" id="password" class="form-control form-control-lg" placeholder="Password"/>
+                </div>
+    
+                <button class="btn btn-outline-light btn-lg px-5" type="submit" id="submitLogin">Login</button>
+
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+      </div>
+    </section>
+</body>
+</html>
