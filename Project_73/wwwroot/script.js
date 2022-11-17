@@ -1,6 +1,7 @@
 async function AddProduct(){
     const token = sessionStorage.getItem(tokenKey);
     await $.ajax({
+        // url: '/api/Product/CreateProduct',
         url: '/api/ProductNotRedis/CreateProduct',
         type: 'POST',
         data: {
@@ -27,7 +28,9 @@ async function AddProduct(){
 }
 
 async function UpdateProduct(product){
-    await $.post( "/api/ProductNotRedis/UpdateProduct", product).done(function(data) {
+    // await $.post( "/api/Product/UpdateProduct", product)
+    await $.post( "/api/ProductNotRedis/UpdateProduct", product)
+    .done(function(data) {
         console.log(data);
     });
 }
@@ -35,6 +38,7 @@ async function UpdateProduct(product){
 function DeleteProduct(id){
     const token = sessionStorage.getItem(tokenKey);
     $.ajax({
+        // url: "/api/Product/DeleteProduct?id=" + id,
         url: "/api/ProductNotRedis/DeleteProduct?id=" + id,
         type: "DELETE",
         headers: {
@@ -53,6 +57,7 @@ function DeleteProduct(id){
 
 function AdminGetProducts(){
     $("#productForm").children().remove();
+    // $.get("/api/Product/ProductsList")
     $.get("/api/ProductNotRedis/ProductsList")
     .done((data) =>{
         for (const iterator of data) {
@@ -122,6 +127,7 @@ function AdminGetProducts(){
 
 function GetProducts(){
     $("#productForm").children().remove();
+    // $.get("/api/Product/ProductsList")
     $.get("/api/ProductNotRedis/ProductsList")
     .done(async (data) =>{
         for (const iterator of data) {
