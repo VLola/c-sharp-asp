@@ -8,7 +8,7 @@ using Project_73.Models;
 namespace Project_73.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize]
+    [ApiController]
     public class ProductController : ControllerBase
     {
         private readonly DbContextClass _context;
@@ -47,23 +47,26 @@ namespace Project_73.Controllers
             productCache = productCacheList.Find(x => x.ProductId == id);
             if (productCache == null)
             {
-                productCache = await _context.Products.FindAsync(id);
+                Product? product = await _context.Products.FindAsync(id);
+                if (product == null) return NotFound();
+                else return product;
             }
-            return productCache;
+            else return productCache;
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         [Route("CreateProduct")]
-        public async Task<ActionResult<Product>> POST(Product product)
+        public async Task<ActionResult> POST([FromForm]Product product)
         {
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
             _cacheService.RemoveData("Product");
-            return CreatedAtAction(nameof(Get), new { id = product.ProductId }, product);
+            return Ok();
         }
-        [HttpPost]
+
+        [HttpDelete, Authorize]
         [Route("DeleteProduct")]
-        public async Task<ActionResult<IEnumerable<Product>>> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
@@ -73,29 +76,27 @@ namespace Project_73.Controllers
             _context.Products.Remove(product);
             _cacheService.RemoveData("Product");
             await _context.SaveChangesAsync();
-            return await _context.Products.ToListAsync();
+            return Ok();
         }
 
         [HttpPost]
         [Route("UpdateProduct")]
-        public async Task<ActionResult<IEnumerable<Product>>> Update(int id, Product product)
+        public async Task<ActionResult> Update([FromForm]Product product)
         {
-            if (id != product.ProductId)
-            {
-                return BadRequest();
-            }
-            var productData = await _context.Products.FindAsync(id);
+            var productData = await _context.Products.FindAsync(product.ProductId);
             if (productData == null)
             {
                 return NotFound();
             }
-            productData.ProductCost = product.ProductCost;
             productData.ProductDescription = product.ProductDescription;
             productData.ProductName = product.ProductName;
+            productData.ProductCost = product.ProductCost;
             productData.ProductStock = product.ProductStock;
+            productData.ProductDiscount = product.ProductDiscount;
+            productData.ProductImageUrl = product.ProductImageUrl;
             _cacheService.RemoveData("Product");
             await _context.SaveChangesAsync();
-            return await _context.Products.ToListAsync();
+            return Ok();
         }
     }
 }
