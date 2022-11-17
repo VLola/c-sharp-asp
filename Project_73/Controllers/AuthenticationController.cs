@@ -12,7 +12,7 @@ namespace Project_73.Controllers
     public class AuthenticationController : ControllerBase
     {
         [HttpPost("login")]
-        public IActionResult Login([FromBody] Login user)
+        public IActionResult Login([FromForm] Login user)
         {
             if (user is null)
             {

@@ -1,28 +1,46 @@
-function AddProduct(){
-    $.post( "/api/ProductNotRedis/CreateProduct",
-    {
-        productName: $("#productName").val(),
-        productDescription: $("#productDescription").val(),
-        productCost: $("#productCost").val(),
-        productStock: $("#productStock").val(),
-        productDiscount: $("#productDiscount").val(),
-        productImageUrl: $("#productImageUrl").val(),
-    }).done(function(data) {
-        console.log(data);
-        AdminGetProducts();
+async function AddProduct(){
+    const token = sessionStorage.getItem(tokenKey);
+    await $.ajax({
+        url: '/api/ProductNotRedis/CreateProduct',
+        type: 'POST',
+        data: {
+            productId: 0,
+            productName: $("#productName").val(),
+            productDescription: $("#productDescription").val(),
+            productCost: $("#productCost").val(),
+            productStock: $("#productStock").val(),
+            productDiscount: $("#productDiscount").val(),
+            productImageUrl: $("#productImageUrl").val(),
+        },
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        success: function (data){
+            console.log(data);
+            AdminGetProducts();
+        },
+        error: function (data){
+            console.error(data);  
+        }
     });
 }
 
 async function UpdateProduct(product){
-    await $.post( "/api/ProductNotRedis/UpdateProduct", product).done(async function(data) {
-        await console.log(data);
+    await $.post( "/api/ProductNotRedis/UpdateProduct", product).done(function(data) {
+        console.log(data);
     });
 }
 
 function DeleteProduct(id){
+    const token = sessionStorage.getItem(tokenKey);
     $.ajax({
         url: "/api/ProductNotRedis/DeleteProduct?id=" + id,
         type: "DELETE",
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + token
+        },
         success: function(data) {
             console.log(data);
             AdminGetProducts();
@@ -113,10 +131,9 @@ function GetProducts(){
         let divDiscount = $("<div></div>").addClass('position-absolute w-100 p-3');
         let productDiscount = $("<h6></h6>").addClass('float-end bg-secondary p-2 rounded text-white').text(`-${iterator['productDiscount']} %`);
 
-        
         let productImage = $("<img></img>").addClass('h-100 mx-auto').css('display', 'block').attr("src", iterator['productImageUrl']);
         let productDescription = $("<small></small>").addClass('card-title text-secondary').css('display', 'none').text(`${iterator['productDescription']}`);
-        let divImageAndDescription = $("<div></div>").addClass('w-100').css('height', '10.2rem').css('overflow', 'hidden').mouseenter(function() {
+        let divImageAndDescription = $("<div></div>").addClass('w-100').css('height', '10.2rem').css('overflow', 'hidden').css('cursor', 'pointer').mouseenter(function() {
             productImage.css('display', 'none');
             productDescription.css('display', 'block');
           })
@@ -130,6 +147,7 @@ function GetProducts(){
         
         
         let productCost = $("<del></del>").addClass('card-text text-secondary mt-auto').text(`${iterator['productCost']} UAH.`);
+        let divFooter = $("<div></div>").addClass('d-flex justify-content-between');
         let productPrice = $("<h5></h5>").addClass('card-title').text(`${Math.round(iterator['productCost'] - (iterator['productCost'] / 100 * iterator['productDiscount']))} UAH.`);
         let productButton = $("<button></button>").addClass('btn btn-outline-dark btn-lg').text("Buy").click(async function() {
             if(iterator['productStock'] > 0){
@@ -138,6 +156,11 @@ function GetProducts(){
                 GetProducts();
             }
         });
+
+        let productStock = $("<h5></h5>").text(`Stock: ${iterator['productStock']}`);
+
+        divFooter.append(productPrice);
+        divFooter.append(productStock);
 
         if(iterator['productStock'] <= 0){
             productButton.prop('disabled', true);
@@ -148,7 +171,7 @@ function GetProducts(){
         productBody.append(productName);
         productBody.append(divImageAndDescription);
         productBody.append(productCost);
-        productBody.append(productPrice);
+        productBody.append(divFooter);
         productBody.append(productButton);
         product.append(productBody);
         $("#productForm").append(product);
@@ -183,42 +206,32 @@ function Exit(){
     $("#buttonSignIn").css('display', 'block');
 }
 
+var tokenKey = "accessToken";
+
+function Autorisation(){
+    $.post("/api/Authentication/login", {
+        userName: $("#email").val(),
+        password: $("#password").val(),
+    })
+    .done(function(response) {
+        Login();
+        sessionStorage.setItem(tokenKey, response.token);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', (e) => {
-		var tokenKey = "accessToken";
-        // при нажатии на кнопку отправки формы идет запрос к /login для получения токена
-        document.getElementById("submitLogin").addEventListener("click", async e => {
-            e.preventDefault();
-            // отправляет запрос и получаем ответ
-            const response = await fetch("/api/Authentication/login", {
-                method: "POST",
-                headers: { "Accept": "application/json", "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    userName: document.getElementById("email").value,
-                    password: document.getElementById("password").value
-                })
-            });
-            // если запрос прошел нормально
-            if (response.ok === true) {
-                // получаем данные
-                const data = await response.json();
-                // изменяем содержимое и видимость блоков на странице
-                Login();
-                // сохраняем в хранилище sessionStorage токен доступа
-                sessionStorage.setItem(tokenKey, data.token);
-            }
-            else  // если произошла ошибка, получаем код статуса
-                console.log("Status: ", response.status);
+
+        
+        $("#submitLogin").click(()=>{
+            Autorisation();
         });
- 
-        // // условный выход - просто удаляем токен и меняем видимость блоков
-        document.getElementById("buttonLogOut").addEventListener("click", e => {
- 
-            e.preventDefault();
+        
+        $("#buttonLogOut").click(()=>{
             Exit();
             sessionStorage.removeItem(tokenKey);
             GetProducts();
         });
-
+ 
         $("#buttonSignIn").click(()=>{
             SignIn();
         });

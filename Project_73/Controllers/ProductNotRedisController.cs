@@ -31,7 +31,7 @@ namespace Project_73.Controllers
             else return product;
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         [Route("CreateProduct")]
         public async Task<ActionResult> POST([FromForm]Product product)
         {
@@ -40,7 +40,7 @@ namespace Project_73.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete, Authorize]
         [Route("DeleteProduct")]
         public async Task<ActionResult> Delete(int id)
         {
