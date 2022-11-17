@@ -63,10 +63,12 @@ namespace Project_73.Controllers
             {
                 return NotFound();
             }
-            productData.ProductCost = product.ProductCost;
             productData.ProductDescription = product.ProductDescription;
             productData.ProductName = product.ProductName;
+            productData.ProductCost = product.ProductCost;
             productData.ProductStock = product.ProductStock;
+            productData.ProductDiscount = product.ProductDiscount;
+            productData.ProductImageUrl = product.ProductImageUrl;
             await _context.SaveChangesAsync();
             return Ok();
         }

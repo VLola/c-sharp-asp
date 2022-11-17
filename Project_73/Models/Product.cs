@@ -7,5 +7,7 @@
         public string? ProductDescription { get; set; }
         public int ProductCost { get; set; }
         public int ProductStock { get; set; }
+        public int ProductDiscount { get; set; }
+        public string? ProductImageUrl { get; set; }
     }
 }
