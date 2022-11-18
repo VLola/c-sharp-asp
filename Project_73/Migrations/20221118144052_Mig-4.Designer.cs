@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_73.Data;
 
@@ -10,9 +11,10 @@ using Project_73.Data;
 namespace Project_73.Migrations
 {
     [DbContext(typeof(DbContextClass))]
-    partial class DbContextClassModelSnapshot : ModelSnapshot
+    [Migration("20221118144052_Mig-4")]
+    partial class Mig4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

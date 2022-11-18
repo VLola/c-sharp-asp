@@ -15,5 +15,6 @@ namespace Project_73.Data
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
         }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Login> Logins { get; set; }
     }
 }

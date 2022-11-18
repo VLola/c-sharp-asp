@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Project_73.Data;
 using Project_73.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,14 +12,22 @@ namespace Project_73.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
+        private readonly DbContextClass _context;
+        public AuthenticationController(DbContextClass context)
+        {
+            _context = context;
+        }
         [HttpPost("login")]
         public IActionResult Login([FromForm] Login user)
         {
+            if (!TryValidateModel(user, nameof(Login)))
+                return BadRequest();
+            ModelState.ClearValidationState(nameof(Login));
             if (user is null)
             {
                 return BadRequest("Invalid user request!!!");
             }
-            if (user.UserName == "valik" && user.Password == "12345")
+            if (_context.Logins.Any(item=>item.UserName == user.UserName && item.Password == user.Password))
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationManager.AppSetting["JWT:Secret"]));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -33,6 +42,32 @@ namespace Project_73.Controllers
                 return Ok(new JWTTokenResponse { Token = tokenString });
             }
             return Unauthorized();
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetValue(int id)
+        {
+            var value = _context.Logins.Find(id);
+            return Ok(value);
+        }
+
+        [HttpPost("registration")]
+        public IActionResult Add([FromForm] Login user)
+        {
+            if (!TryValidateModel(user, nameof(Login)))
+                return BadRequest();
+            ModelState.ClearValidationState(nameof(Login));
+            if (_context.Logins.Any(item=>item.UserName == user.UserName))
+            {
+                return Conflict();
+            }
+            else
+            {
+                _context.Logins.Add(user);
+                _context.SaveChanges();
+                string uri = $"/api/registration/{user.Id}";
+                return Created(uri, user);
+            }
         }
     }
 }
