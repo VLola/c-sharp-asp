@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Project_73.Data;
 using Project_73.Models;
@@ -18,7 +19,7 @@ namespace Project_73.Controllers
             _context = context;
         }
         [HttpPost("login")]
-        public IActionResult Login([FromForm] Login user)
+        public async Task<ActionResult> Login([FromForm] Login user)
         {
             if (!TryValidateModel(user, nameof(Login)))
                 return BadRequest();
@@ -27,7 +28,7 @@ namespace Project_73.Controllers
             {
                 return BadRequest("Invalid user request!!!");
             }
-            if (_context.Logins.Any(item=>item.Email == user.Email && item.Password == user.Password))
+            if (await _context.Logins.AnyAsync(item=>item.Email == user.Email && item.Password == user.Password))
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationManager.AppSetting["JWT:Secret"]));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -45,14 +46,14 @@ namespace Project_73.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetValue(int id)
+        public async Task<ActionResult> GetValue(int id)
         {
-            var value = _context.Logins.Find(id);
+            var value = await _context.Logins.FindAsync(id);
             return Ok(value);
         }
 
         [HttpPost("registration")]
-        public IActionResult Add([FromForm] Login user)
+        public async Task<ActionResult> Add([FromForm] Login user)
         {
             if (!TryValidateModel(user, nameof(Login)))
                 return BadRequest();
@@ -60,14 +61,14 @@ namespace Project_73.Controllers
             var addr = new System.Net.Mail.MailAddress(user.Email);
             if (addr.Address == user.Email)
             {
-                if (_context.Logins.Any(item => item.Email == user.Email))
+                if (await _context.Logins.AnyAsync(item => item.Email == user.Email))
                 {
                     return Conflict();
                 }
                 else
                 {
-                    _context.Logins.Add(user);
-                    _context.SaveChanges();
+                    await _context.Logins.AddAsync(user);
+                    await _context.SaveChangesAsync();
                     string uri = $"/api/registration/{user.Id}";
                     return Created(uri, user);
                 }

@@ -38,7 +38,7 @@ namespace Project_73.Controllers
             if (!TryValidateModel(product, nameof(Product)))
                 return BadRequest();
             ModelState.ClearValidationState(nameof(Product));
-            _context.Products.Add(product);
+            await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
             return Ok();
         }
