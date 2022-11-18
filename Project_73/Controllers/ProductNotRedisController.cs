@@ -35,6 +35,9 @@ namespace Project_73.Controllers
         [Route("CreateProduct")]
         public async Task<ActionResult> POST([FromForm]Product product)
         {
+            if (!TryValidateModel(product, nameof(Product)))
+                return BadRequest();
+            ModelState.ClearValidationState(nameof(Product));
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
             return Ok();
@@ -58,6 +61,9 @@ namespace Project_73.Controllers
         [Route("UpdateProduct")]
         public async Task<ActionResult> Update([FromForm]Product product)
         {
+            if (!TryValidateModel(product, nameof(Product)))
+                return BadRequest();
+            ModelState.ClearValidationState(nameof(Product));
             var productData = await _context.Products.FindAsync(product.ProductId);
             if (productData == null)
             {

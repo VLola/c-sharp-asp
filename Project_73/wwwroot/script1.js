@@ -212,24 +212,94 @@ function Exit(){
     $("#buttonSignIn").css('display', 'block');
 }
 
+
+function SelectCheckBox(){
+    let check = $("#typeCheckBox:checked").is(":checked");
+    if(check !== true){
+        $("#textCheckBox").text("Don't have an account?");
+        $("#submitLogin").text("Login");
+    }
+    else{
+        $("#textCheckBox").text("Do you have an account?");
+        $("#submitLogin").text("Register");
+    }
+}
+
 var tokenKey = "accessToken";
 
 function Autorisation(){
-    $.post("/api/Authentication/login", {
-        userName: $("#email").val(),
-        password: $("#password").val(),
-    })
-    .done(function(response) {
-        Login();
-        sessionStorage.setItem(tokenKey, response.token);
-    });
+    let password = $("#password").val();
+    if(Validate(password)){
+        $.post("/api/Authentication/login", {
+            email: $("#email").val(),
+            password: password,
+        })
+        .done(function(response) {
+            Login();
+            sessionStorage.setItem(tokenKey, response.token);
+        })
+        .fail((response) =>{
+            alert(response.status);
+        });
+    }
+}
+
+function Registration(){
+    let password = $("#password").val();
+    if(Validate(password)){
+        $.post("/api/Authentication/registration", {
+            email: $("#email").val(),
+            password: password,
+        })
+        .done(function(response) {
+            console.log(response);
+            alert("Registration successful!");
+        })
+        .fail((response) =>{
+            alert(response.status);
+        });
+    }
+}
+
+function Validate(password){
+    if(ValidateEmail()){
+        if(ValidatePassword(password)){
+            return true;
+        }
+        else{
+            alert("Password incorrect!");
+            return false;
+        }
+    }
+    else {
+        alert("Email incorrect!");
+        return false;
+    }
+}
+
+function ValidateEmail() {
+    return $("#email").is(':valid');
+}
+
+
+function ValidatePassword(password) {
+    return password.length > 7;
 }
 
 document.addEventListener('DOMContentLoaded', (e) => {
 
+        $("#typeCheckBox").change(()=>{
+            SelectCheckBox();
+        });
         
         $("#submitLogin").click(()=>{
-            Autorisation();
+            let check = $("#typeCheckBox:checked").is(":checked");
+            if(check !== true){
+                Autorisation();
+            }
+            else{
+                Registration();
+            }
         });
         
         $("#buttonLogOut").click(()=>{
@@ -252,5 +322,4 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
         GetProducts();
 
-    
 });

@@ -27,7 +27,7 @@ namespace Project_73.Controllers
             {
                 return BadRequest("Invalid user request!!!");
             }
-            if (_context.Logins.Any(item=>item.UserName == user.UserName && item.Password == user.Password))
+            if (_context.Logins.Any(item=>item.Email == user.Email && item.Password == user.Password))
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationManager.AppSetting["JWT:Secret"]));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -57,17 +57,22 @@ namespace Project_73.Controllers
             if (!TryValidateModel(user, nameof(Login)))
                 return BadRequest();
             ModelState.ClearValidationState(nameof(Login));
-            if (_context.Logins.Any(item=>item.UserName == user.UserName))
+            var addr = new System.Net.Mail.MailAddress(user.Email);
+            if (addr.Address == user.Email)
             {
-                return Conflict();
+                if (_context.Logins.Any(item => item.Email == user.Email))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    _context.Logins.Add(user);
+                    _context.SaveChanges();
+                    string uri = $"/api/registration/{user.Id}";
+                    return Created(uri, user);
+                }
             }
-            else
-            {
-                _context.Logins.Add(user);
-                _context.SaveChanges();
-                string uri = $"/api/registration/{user.Id}";
-                return Created(uri, user);
-            }
+            else return BadRequest();
         }
     }
 }
