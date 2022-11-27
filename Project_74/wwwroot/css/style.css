@@ -1,0 +1,13 @@
+.button__call {
+    background-color: transparent;
+  }
+  .button__call:hover {
+    background-color: white;
+  }
+  .div__button{
+    color: white;
+    cursor: pointer;
+  }
+  .div__button:hover {
+   color: orange;
+  } 

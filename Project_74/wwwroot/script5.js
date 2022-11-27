@@ -196,12 +196,14 @@ function GetProducts(){
 function SignIn(){
     $("#loginForm").css('display', 'block');
     $("#productForm").css('filter', 'blur(5px)');
+    $("#topHeader").css('filter', 'blur(5px)');
     $("#buttonSignIn").css('display', 'none');
 }
 
 function CloseSignIn(){
     $("#loginForm").css('display', 'none');
     $("#productForm").css('filter', 'blur(0px)');
+    $("#topHeader").css('filter', 'blur(0px)');
     $("#buttonSignIn").css('display', 'block');
 }
 
@@ -210,6 +212,7 @@ function Login(){
     $("#loginForm").css('display', 'none');
     $("#userInfo").css('display', 'block');
     $("#productForm").css('filter', 'blur(0px)');
+    $("#topHeader").css('filter', 'blur(0px)');
     AdminGetProducts();
 }
 
