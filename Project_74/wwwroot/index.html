@@ -13,172 +13,170 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-    <section class="vh-100">
-      <div id="topHeader" class="container-fluid" style="height: 248px; background-image: url('/images/header.jpg')">
-        <div class="container w-100 h-100">
-          <div class="d-flex justify-content-between h-25 w-100 py-3">
-            <div class="d-flex">
-              <div class="div__button px-3" style="font-family: 'oswald',sans-serif;">Доставка и оплата</div>
-              <div class="div__button px-3" style="font-family: 'oswald',sans-serif;">Гарантия и сервис</div>
-              <div class="div__button px-3" style="font-family: 'oswald',sans-serif;">О нас</div>
-            </div>
-            <div class="div__button" id="buttonSignIn" style="font-family: 'oswald',sans-serif;">Админ панель</div>
-            <div class="self px-2" style="font-family: 'oswald',sans-serif; color: white; cursor: pointer;">укр / <span style="color: orange;">рус</span> / eng</div>
+  <div id="topHeader" class="container-fluid" style="height: 248px; background-image: url('/images/header.jpg')">
+    <div class="container w-100 h-100">
+      <div class="d-flex justify-content-between h-25 w-100 py-3">
+        <div class="d-flex">
+          <div class="div__button px-3" style="font-family: 'oswald',sans-serif;">Доставка и оплата</div>
+          <div class="div__button px-3" style="font-family: 'oswald',sans-serif;">Гарантия и сервис</div>
+          <div class="div__button px-3" style="font-family: 'oswald',sans-serif;">О нас</div>
+        </div>
+        <h4 class="div__button" id="buttonSignIn" >Админ панель</h4>
+        <div class="self px-2" style="font-family: 'oswald',sans-serif; color: white; cursor: pointer;">укр / <span style="color: orange;">рус</span> / eng</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center h-50 w-100 px-3">
+        <div class="d-flex align-items-center">
+          <img src="./images/skif-logo.png"/>
+          <div class="p-4 text-light"><h6>ОФИЦИАЛЬНЫЙ САЙТ<br>ТОРГОВОЙ МАРКИ SKIF</h6></div>
+        </div>
+        <div class="d-flex align-items-center">
+          <div class="p-4 text-light"><h6>0 800 60 44 33<br>Прием заказов по телефону: с 09.00 до 20.00 без выходных</h6></div>
+        </div>
+        <button class="button__call px-5 py-3 border btn-outline-light">Заказать звонок</button>
+      </div>
+      <div class="d-flex justify-content-between h-25 w-100 py-3">
+        <div class="d-flex">
+          <div class="div__button ps-3 pe-5" style="font-family: 'oswald',sans-serif;">КАТАЛОГ ТОВАРОВ</div>
+          <div class="div__button px-5" style="font-family: 'oswald',sans-serif;">ПУБЛИКАЦИИ</div>
+          <div class="div__button px-5" style="font-family: 'oswald',sans-serif;">КОНТАКТЫ</div>
+        </div>
+        <div class="d-flex">
+          <img src="./images/seaarch.png"/>
+          <div  class="px-2">
+            <input type="text" placeholder="Поиск по сайту..." style="background: transparent;border: none;"/>
           </div>
-          <div class="d-flex justify-content-between align-items-center h-50 w-100 px-3">
-            <div class="d-flex align-items-center">
-              <img src="./images/skif-logo.png"/>
-              <div class="p-4 text-light"><h6>ОФИЦИАЛЬНЫЙ САЙТ<br>ТОРГОВОЙ МАРКИ SKIF</h6></div>
-            </div>
-            <div class="d-flex align-items-center">
-              <div class="p-4 text-light"><h6>0 800 60 44 33<br>Прием заказов по телефону: с 09.00 до 20.00 без выходных</h6></div>
-            </div>
-            <button class="button__call px-5 py-3 border btn-outline-light">Заказать звонок</button>
+        </div>
+        <div class="d-flex">
+          <h3 class="text-white px-2" style="font-family: 'oswald',sans-serif;">0</h3>
+          <img src="./images/cart.png"/>
+          <div class="flex px-2">
+            <div style="font-size: 12px">Ваша корзина</div>
+            <div style="font-size: 12px">0 товаров - 0.00 грн</div>
           </div>
-          <div class="d-flex justify-content-between h-25 w-100 py-3">
-            <div class="d-flex">
-              <div class="div__button ps-3 pe-5" style="font-family: 'oswald',sans-serif;">КАТАЛОГ ТОВАРОВ</div>
-              <div class="div__button px-5" style="font-family: 'oswald',sans-serif;">ПУБЛИКАЦИИ</div>
-              <div class="div__button px-5" style="font-family: 'oswald',sans-serif;">КОНТАКТЫ</div>
-            </div>
-            <div class="d-flex">
-              <img src="./images/seaarch.png"/>
-              <div  class="px-2">
-                <input type="text" placeholder="Поиск по сайту..." style="background: transparent;border: none;"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div  class="container-fluid h-100">
+
+    <div id="loginForm" class="fixed-top w-100 h-100" style="display:none;">
+      <div class="d-flex w-100 h-100 justify-content-center align-items-center">
+        <div class="w-25">
+          <div class="card bg-dark text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center justify-content-center">
+
+              <div class="position-absolute w-100 px-5">
+                <button class="btn btn-outline-light btn-close bg-light float-end me-5" id="buttonLoginClose"></button>
               </div>
-            </div>
-            <div class="d-flex">
-              <h3 class="text-white px-2" style="font-family: 'oswald',sans-serif;">0</h3>
-              <img src="./images/cart.png"/>
-              <div class="flex px-2">
-                <div style="font-size: 12px">Ваша корзина</div>
-                <div style="font-size: 12px">0 товаров - 0.00 грн</div>
+  
+              <h2 class="fw-bold mb-2 text-uppercase" id="typeTitle">Login</h2>
+              <p class="mb-5" id="typeText" style="opacity: 0.7;">Please enter your email and password!</p>
+  
+              <div class="form-outline form-white mb-4">
+                <input type="email" id="email" class="form-control form-control-lg" placeholder="Email"/>
               </div>
+  
+              <div class="form-outline form-white mb-4">
+                <input type="password" id="password" class="form-control form-control-lg" placeholder="Password"/>
+              </div>
+
+              
+              <div class="d-flex justify-content-center mb-4">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="typeCheckBox" role="button">
+                  <label class="form-label" for="typeCheckBox" role="button" id="textCheckBox">Don't have an account?</label>
+                </div>
+              </div>
+  
+              <button class="btn btn-outline-light btn-lg px-5" id="submitLogin">Login</button>
+
             </div>
           </div>
         </div>
       </div>
-      <div  class="container-fluid h-100">
+    </div>
 
-        <div id="loginForm" class="fixed-top w-100 h-100" style="display:none;">
-          <div class="d-flex w-100 h-100 justify-content-center align-items-center">
-            <div class="w-25">
-              <div class="card bg-dark text-white" style="border-radius: 1rem;">
-                <div class="card-body p-5 text-center justify-content-center">
-    
-                  <div class="position-absolute w-100 px-5">
-                    <button class="btn btn-outline-light btn-close bg-light float-end me-5" id="buttonLoginClose"></button>
-                  </div>
-      
-                  <h2 class="fw-bold mb-2 text-uppercase" id="typeTitle">Login</h2>
-                  <p class="mb-5" id="typeText" style="opacity: 0.7;">Please enter your email and password!</p>
-      
-                  <div class="form-outline form-white mb-4">
-                    <input type="email" id="email" class="form-control form-control-lg" placeholder="Email"/>
-                  </div>
-      
-                  <div class="form-outline form-white mb-4">
-                    <input type="password" id="password" class="form-control form-control-lg" placeholder="Password"/>
-                  </div>
+    <div class="container-fluid justify-content-center align-items-center">
 
-                  
-                  <div class="d-flex justify-content-center mb-4">
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="typeCheckBox" role="button">
-                      <label class="form-label" for="typeCheckBox" role="button" id="textCheckBox">Don't have an account?</label>
-                    </div>
-                  </div>
-      
-                  <button class="btn btn-outline-light btn-lg px-5" id="submitLogin">Login</button>
-    
-                </div>
-              </div>
+      <div class="d-flex justify-content-end w-100">
+        <div id="userInfo" class="w-25" style="display:none;">
+
+          <div class="d-flex w-100 p-3">
+            <h3 class="w-50 align-self-center">Name:</h3>
+            <div class="w-50">
+              <textarea class="form-control border-secondary" id="productName"></textarea>
             </div>
           </div>
-        </div>
 
-        <div class="flex justify-content-center align-items-center w-100">
-
-          <div class="d-flex justify-content-end w-100">
-            <div id="userInfo" class="w-25" style="display:none;">
-
-              <div class="d-flex w-100 p-3">
-                <h3 class="w-50 align-self-center">Name:</h3>
-                <div class="w-50">
-                  <textarea class="form-control border-secondary" id="productName"></textarea>
-                </div>
-              </div>
-    
-              <div class="d-flex w-100 p-3">
-                <h3 class="w-50 align-self-center">Description:</h3>
-                <div class="w-50">
-                  <textarea class="form-control border-secondary" id="productDescription"></textarea>
-                </div>
-              </div>
-              
-              <div class="d-flex w-100 p-3">
-                <h3 class="w-50 align-self-center">Cost:</h3>
-                <div class="w-50">
-                  <input type="text" class="form-control form-control-lg border-secondary" id="productCost">
-                </div>
-              </div>
-              
-              <div class="d-flex w-100 p-3">
-                <h3 class="w-50 align-self-center">Stock:</h3>
-                <div class="w-50">
-                  <input type="text" class="form-control form-control-lg border-secondary" id="productStock">
-                </div>
-              </div>
-              <div class="d-flex w-100 p-3">
-                <h3 class="w-50 align-self-center">Твердость стали:</h3>
-                <div class="w-50">
-                  <textarea class="form-control border-secondary" id="productSteelHardness"></textarea>
-                </div>
-              </div>
-              <div class="d-flex w-100 p-3">
-                <h3 class="w-50 align-self-center">Марка стали:</h3>
-                <div class="w-50">
-                  <textarea class="form-control border-secondary" id="productSteelGrade"></textarea>
-                </div>
-              </div>
-              <div class="d-flex w-100 p-3">
-                <h3 class="w-50 align-self-center">Материал накладки:</h3>
-                <div class="w-50">
-                  <textarea class="form-control border-secondary" id="productLiningMaterial"></textarea>
-                </div>
-              </div>
-  
-              <div class="d-flex w-100 p-3">
-                <h3 class="w-50 align-self-center">Image url:</h3>
-                <div class="w-50">
-                  <input type="text" class="form-control form-control-lg border-secondary" id="productImageUrl">
-                </div>
-              </div>
-  
-              <div class="w-100 p-3">
-                <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonAddProduct">Add product</button>
-                <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonLogOut">Log out</button>
-              </div>
-    
+          <div class="d-flex w-100 p-3">
+            <h3 class="w-50 align-self-center">Description:</h3>
+            <div class="w-50">
+              <textarea class="form-control border-secondary" id="productDescription"></textarea>
             </div>
-            <div id="productForm" class="d-flex flex-wrap w-75"></div>
-          </div>
-          <div class="d-flex justify-content-center w-100">
-            <nav aria-label="Page navigation example">
-              <ul class="pagination" id="pages">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-              </ul>
-            </nav>
           </div>
           
-        </div>
-        
+          <div class="d-flex w-100 p-3">
+            <h3 class="w-50 align-self-center">Cost:</h3>
+            <div class="w-50">
+              <input type="text" class="form-control form-control-lg border-secondary" id="productCost">
+            </div>
+          </div>
+          
+          <div class="d-flex w-100 p-3">
+            <h3 class="w-50 align-self-center">Stock:</h3>
+            <div class="w-50">
+              <input type="text" class="form-control form-control-lg border-secondary" id="productStock">
+            </div>
+          </div>
+          <div class="d-flex w-100 p-3">
+            <h3 class="w-50 align-self-center">Твердость стали:</h3>
+            <div class="w-50">
+              <textarea class="form-control border-secondary" id="productSteelHardness"></textarea>
+            </div>
+          </div>
+          <div class="d-flex w-100 p-3">
+            <h3 class="w-50 align-self-center">Марка стали:</h3>
+            <div class="w-50">
+              <textarea class="form-control border-secondary" id="productSteelGrade"></textarea>
+            </div>
+          </div>
+          <div class="d-flex w-100 p-3">
+            <h3 class="w-50 align-self-center">Материал накладки:</h3>
+            <div class="w-50">
+              <textarea class="form-control border-secondary" id="productLiningMaterial"></textarea>
+            </div>
+          </div>
 
+          <div class="d-flex w-100 p-3">
+            <h3 class="w-50 align-self-center">Image url:</h3>
+            <div class="w-50">
+              <input type="text" class="form-control form-control-lg border-secondary" id="productImageUrl">
+            </div>
+          </div>
+
+          <div class="w-100 p-3">
+            <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonAddProduct">Add product</button>
+            <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonLogOut">Log out</button>
+          </div>
+
+        </div>
+        <div id="productForm" class="d-flex flex-wrap w-75"></div>
       </div>
-    </section>
+      <div class="d-flex justify-content-center w-100">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination" id="pages">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </nav>
+      </div>
+      
+    </div>
+    
+
+  </div>
 </body>
 </html>
