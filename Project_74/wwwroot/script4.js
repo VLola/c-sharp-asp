@@ -300,9 +300,10 @@ function GetPages() {
         console.log(data);
 
         let liPrevious = $("<li></li>").addClass('page-item');
-        let aPrevious = $("<li></li>").addClass('page-link').text("Previous").click(()=>{
+        let aPrevious = $("<li></li>").addClass('page-link text-dark').css('cursor', 'pointer').text("Previous").click(()=>{
             if(page > 1) {
                 page = page - 1;
+                GetPages();
                 if(isLogin)AdminGetProducts();
                 else GetProducts();
             }
@@ -312,21 +313,25 @@ function GetPages() {
 
         for(let i = 1; i <= data; i++){
             let li = $("<li></li>").addClass('page-item');
-            let a = $("<li></li>").addClass('page-link').text(i).click(()=>{
+            if(i == page) li.addClass('bg-secondary');
+            let a = $("<li></li>").addClass('page-link text-dark').css('cursor', 'pointer').text(i).click(()=>{
                 if(page != i) {
                     page = i;
+                    GetPages();
                     if(isLogin)AdminGetProducts();
                     else GetProducts();
                 }
             });
+            if(i == page) a.addClass('bg-warning');
             li.append(a);
             $("#pages").append(li);
         }
 
         let liNext = $("<li></li>").addClass('page-item');
-        let aNext = $("<li></li>").addClass('page-link').text("Next").click(()=>{
+        let aNext = $("<li></li>").addClass('page-link text-dark').css('cursor', 'pointer').text("Next").click(()=>{
             if(page < data){
                 page = page + 1;
+                GetPages();
                 if(isLogin)AdminGetProducts();
                 else GetProducts();
             }
