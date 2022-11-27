@@ -1,4 +1,5 @@
 var page = 1;
+var isLogin = false;
 async function AddProduct(){
     const token = sessionStorage.getItem(tokenKey);
     await $.ajax({
@@ -57,7 +58,7 @@ function DeleteProduct(id){
 
 function AdminGetProducts(){
     $("#productForm").children().remove();
-    $.get("/api/Knife/KnifesList")
+    $.get(`/api/Knife/KnifesList?id=${page}`)
     .done((data) =>{
         for (const iterator of data) {
         let product = $("<div></div>").addClass('card shadow').css('margin', '1rem').css('width', '18rem').css('height', '36rem');
@@ -128,13 +129,13 @@ function AdminGetProducts(){
 
 function GetProducts(){
     $("#productForm").children().remove();
-    $.get("/api/Knife/KnifesList")
+    $.get(`/api/Knife/KnifesList?id=${page}`)
     .done(async (data) =>{
         for (const iterator of data) {
         let product = $("<div></div>").addClass('card').css('padding', '0rem').css('margin', '1rem').css('width', '22rem').css('height', '30rem')
         .mouseenter(function() {
             product.addClass("shadow");
-            product.css( { transition: "transform 0.5s", transform:  "scale(1.05, 1.05)" } );
+            product.css( { transition: "transform 0.2s", transform:  "scale(1.05, 1.05)" } );
           })
         .mouseleave(function() {
             product.removeClass("shadow");
@@ -205,6 +206,7 @@ function CloseSignIn(){
 }
 
 function Login(){
+    isLogin = true;
     $("#loginForm").css('display', 'none');
     $("#userInfo").css('display', 'block');
     $("#productForm").css('filter', 'blur(0px)');
@@ -212,6 +214,7 @@ function Login(){
 }
 
 function Exit(){
+    isLogin = false;
     $("#userInfo").css('display', 'none');
     $("#buttonSignIn").css('display', 'block');
 }
@@ -290,6 +293,52 @@ function ValidatePassword(password) {
     return password.length > 7;
 }
 
+function GetPages() {
+    $("#pages").children().remove();
+    $.get(`/api/Knife/GetPages?id=${page}`)
+    .done((data) =>{
+        console.log(data);
+
+        let liPrevious = $("<li></li>").addClass('page-item');
+        let aPrevious = $("<li></li>").addClass('page-link').text("Previous").click(()=>{
+            if(page > 1) {
+                page = page - 1;
+                if(isLogin)AdminGetProducts();
+                else GetProducts();
+            }
+        });
+        liPrevious.append(aPrevious);
+        $("#pages").append(liPrevious);
+
+        for(let i = 1; i <= data; i++){
+            let li = $("<li></li>").addClass('page-item');
+            let a = $("<li></li>").addClass('page-link').text(i).click(()=>{
+                if(page != i) {
+                    page = i;
+                    if(isLogin)AdminGetProducts();
+                    else GetProducts();
+                }
+            });
+            li.append(a);
+            $("#pages").append(li);
+        }
+
+        let liNext = $("<li></li>").addClass('page-item');
+        let aNext = $("<li></li>").addClass('page-link').text("Next").click(()=>{
+            if(page < data){
+                page = page + 1;
+                if(isLogin)AdminGetProducts();
+                else GetProducts();
+            }
+        });
+        liNext.append(aNext);
+        $("#pages").append(liNext);
+    })
+    .fail(() =>{
+        console.warn(data);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', (e) => {
 
         $("#typeCheckBox").change(()=>{
@@ -323,7 +372,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         $("#buttonAddProduct").click(()=>{
             AddProduct();
         });
-
+        GetPages();
         GetProducts();
 
 });
