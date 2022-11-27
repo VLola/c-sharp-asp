@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project_72", "Project_72\Pr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project_73", "Project_73\Project_73.csproj", "{8A3B2E4B-9F42-4390-8EFA-B6528652948B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_74", "Project_74\Project_74.csproj", "{898BEBA4-6FE6-4230-A89E-743C8AB59F26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project_74", "Project_74\Project_74.csproj", "{898BEBA4-6FE6-4230-A89E-743C8AB59F26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
