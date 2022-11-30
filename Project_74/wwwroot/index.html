@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="script5.js"></script>
+    <script src="script6.js"></script>
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css?family=Oswald:200,300,regular,500,600,700" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic" rel="stylesheet" />
@@ -17,14 +17,14 @@
     <div class="container w-100 h-100">
       <div class="d-flex justify-content-between h-25 w-100 py-3">
         <div class="d-flex">
-          <div class="div__button px-3" style="font-family: 'oswald',sans-serif;">Доставка и оплата</div>
-          <div class="div__button px-3" style="font-family: 'oswald',sans-serif;">Гарантия и сервис</div>
-          <div class="div__button px-3" style="font-family: 'oswald',sans-serif;">О нас</div>
+          <div class="div__button pe-3">Доставка и оплата</div>
+          <div class="div__button pe-3">Гарантия и сервис</div>
+          <div class="div__button pe-3">О нас</div>
         </div>
         <h4 class="div__button" id="buttonSignIn" >Админ панель</h4>
-        <div class="self px-2" style="font-family: 'oswald',sans-serif; color: white; cursor: pointer;">укр / <span style="color: orange;">рус</span> / eng</div>
+        <div class="self pe-2" style="color: white; cursor: pointer;">укр / <span style="color: orange;">рус</span> / eng</div>
       </div>
-      <div class="d-flex justify-content-between align-items-center h-50 w-100 px-3">
+      <div class="d-flex justify-content-between align-items-center h-50 w-100 pe-3">
         <div class="d-flex align-items-center">
           <img src="./images/skif-logo.png"/>
           <div class="p-4 text-light"><h6>ОФИЦИАЛЬНЫЙ САЙТ<br>ТОРГОВОЙ МАРКИ SKIF</h6></div>
@@ -36,18 +36,18 @@
       </div>
       <div class="d-flex justify-content-between h-25 w-100 py-3">
         <div class="d-flex">
-          <div class="div__button ps-3 pe-5" style="font-family: 'oswald',sans-serif;">КАТАЛОГ ТОВАРОВ</div>
-          <div class="div__button px-5" style="font-family: 'oswald',sans-serif;">ПУБЛИКАЦИИ</div>
-          <div class="div__button px-5" style="font-family: 'oswald',sans-serif;">КОНТАКТЫ</div>
+          <div class="div__button pe-5">КАТАЛОГ ТОВАРОВ</div>
+          <div class="div__button px-5">ПУБЛИКАЦИИ</div>
+          <div class="div__button px-5">КОНТАКТЫ</div>
         </div>
         <div class="d-flex">
           <img src="./images/seaarch.png"/>
-          <div  class="px-2">
-            <input type="text" placeholder="Поиск по сайту..." style="background: transparent;border: none;"/>
-          </div>
+          <form autocomplete="off"  class="px-2 text-light">
+            <input type="search" class="input__search px-2 text-light" placeholder="Поиск по сайту..." autocomplete="off" style="background: transparent; border: none; color: white"/>
+          </form>
         </div>
         <div class="d-flex">
-          <h3 class="text-white px-2" style="font-family: 'oswald',sans-serif;">0</h3>
+          <h3 class="text-white px-2">0</h3>
           <img src="./images/cart.png"/>
           <div class="flex px-2">
             <div style="font-size: 12px; color: white;">Ваша корзина</div>
@@ -57,7 +57,7 @@
       </div>
     </div>
   </div>
-  <div  class="container-fluid h-100">
+  <div  class="container-fluid h-100 py-5">
 
     <div id="loginForm" class="fixed-top w-100 h-100" style="display:none;">
       <div class="d-flex w-100 h-100 justify-content-center align-items-center">
@@ -96,70 +96,95 @@
       </div>
     </div>
 
-    <div class="container-fluid justify-content-center align-items-center">
+    <div class="container justify-content-center align-items-center">
 
-      <div class="d-flex justify-content-end w-100">
-        <div id="userInfo" class="w-25" style="display:none;">
+      <div class="d-flex w-100">
 
-          <div class="d-flex w-100 p-3">
-            <h3 class="w-50 align-self-center">Name:</h3>
-            <div class="w-50">
-              <textarea class="form-control border-secondary" id="productName"></textarea>
-            </div>
-          </div>
+        <div class="w-25">
+          <h5 class="font-oswald">КАТАЛОГ</h5>
 
-          <div class="d-flex w-100 p-3">
-            <h3 class="w-50 align-self-center">Description:</h3>
-            <div class="w-50">
-              <textarea class="form-control border-secondary" id="productDescription"></textarea>
+          <div class="border my-4">
+            <h6 class="p-3 border-bottom font-oswald">КАТЕГОРИИ</h6>
+            <div class="div__button-black py-1 px-3">Складные ножи</div>
+            <div class="div__button-black border-bottom py-1 px-3">Мачете</div>
+            <div class="p-3">ЦЕНА</div>
+            <div class="d-flex justify-content-center align-items-center border-bottom">
+              <form autocomplete="off"  class="px-2 w-50 m-3">
+                <input type="text" class="w-100" placeholder="От..." autocomplete="off"/>
+              </form>
+              <form autocomplete="off"  class="px-2 w-50 m-3">
+                <input type="text" class="w-100" placeholder="До..." autocomplete="off" />
+              </form>
             </div>
-          </div>
-          
-          <div class="d-flex w-100 p-3">
-            <h3 class="w-50 align-self-center">Cost:</h3>
-            <div class="w-50">
-              <input type="text" class="form-control form-control-lg border-secondary" id="productCost">
-            </div>
-          </div>
-          
-          <div class="d-flex w-100 p-3">
-            <h3 class="w-50 align-self-center">Stock:</h3>
-            <div class="w-50">
-              <input type="text" class="form-control form-control-lg border-secondary" id="productStock">
-            </div>
-          </div>
-          <div class="d-flex w-100 p-3">
-            <h3 class="w-50 align-self-center">Твердость стали:</h3>
-            <div class="w-50">
-              <textarea class="form-control border-secondary" id="productSteelHardness"></textarea>
-            </div>
-          </div>
-          <div class="d-flex w-100 p-3">
-            <h3 class="w-50 align-self-center">Марка стали:</h3>
-            <div class="w-50">
-              <textarea class="form-control border-secondary" id="productSteelGrade"></textarea>
-            </div>
-          </div>
-          <div class="d-flex w-100 p-3">
-            <h3 class="w-50 align-self-center">Материал накладки:</h3>
-            <div class="w-50">
-              <textarea class="form-control border-secondary" id="productLiningMaterial"></textarea>
+            <div class="d-flex justify-content-end">
+              <button class="button__style m-4">ВЫБРАТЬ</button>
             </div>
           </div>
 
-          <div class="d-flex w-100 p-3">
-            <h3 class="w-50 align-self-center">Image url:</h3>
-            <div class="w-50">
-              <input type="text" class="form-control form-control-lg border-secondary" id="productImageUrl">
+          <div id="userInfo" class="w-100" style="display:none;">
+
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Name:</h3>
+              <div class="w-50">
+                <textarea class="form-control border-secondary" id="productName"></textarea>
+              </div>
             </div>
+  
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Description:</h3>
+              <div class="w-50">
+                <textarea class="form-control border-secondary" id="productDescription"></textarea>
+              </div>
+            </div>
+            
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Cost:</h3>
+              <div class="w-50">
+                <input type="text" class="form-control form-control-lg border-secondary" id="productCost">
+              </div>
+            </div>
+            
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Stock:</h3>
+              <div class="w-50">
+                <input type="text" class="form-control form-control-lg border-secondary" id="productStock">
+              </div>
+            </div>
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Твердость стали:</h3>
+              <div class="w-50">
+                <textarea class="form-control border-secondary" id="productSteelHardness"></textarea>
+              </div>
+            </div>
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Марка стали:</h3>
+              <div class="w-50">
+                <textarea class="form-control border-secondary" id="productSteelGrade"></textarea>
+              </div>
+            </div>
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Материал накладки:</h3>
+              <div class="w-50">
+                <textarea class="form-control border-secondary" id="productLiningMaterial"></textarea>
+              </div>
+            </div>
+  
+            <div class="d-flex w-100 p-3">
+              <h3 class="w-50 align-self-center">Image url:</h3>
+              <div class="w-50">
+                <input type="text" class="form-control form-control-lg border-secondary" id="productImageUrl">
+              </div>
+            </div>
+  
+            <div class="w-100 p-3">
+              <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonAddProduct">Add product</button>
+              <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonLogOut">Log out</button>
+            </div>
+  
           </div>
-
-          <div class="w-100 p-3">
-            <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonAddProduct">Add product</button>
-            <button class="btn btn-outline-dark btn-lg my-3 w-100" id="buttonLogOut">Log out</button>
-          </div>
-
         </div>
+
+        
         <div id="productForm" class="d-flex flex-wrap w-75"></div>
       </div>
       <div class="d-flex justify-content-center w-100">

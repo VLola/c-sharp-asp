@@ -1,3 +1,11 @@
+#topHeader{
+  font-family: 'oswald',sans-serif;
+}
+
+.font-oswald{
+  font-family: 'oswald',sans-serif;
+}
+
 .button__call {
     background-color: transparent;
   }
@@ -11,3 +19,24 @@
   .div__button:hover {
    color: orange;
   } 
+  .div__button-black{
+    font-size:smaller;
+    cursor: pointer;
+  }
+  .div__button-black:hover {
+   color: orange;
+   text-decoration: underline;
+  } 
+
+.input__search::placeholder {
+    color: white;
+}
+.button__style{
+  font-family: 'oswald',sans-serif;
+  border: none;
+  background-color: #ff6b00;
+  color: white;
+}
+.button__style:hover{
+  background-color: #f32828;
+}

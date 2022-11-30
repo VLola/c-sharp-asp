@@ -132,7 +132,7 @@ function GetProducts(){
     $.get(`/api/Knife/KnifesList?id=${page}`)
     .done(async (data) =>{
         for (const iterator of data) {
-        let product = $("<div></div>").addClass('card').css('padding', '0rem').css('margin', '1rem').css('width', '22rem').css('height', '30rem')
+        let product = $("<div></div>").addClass('card').css('padding', '0rem').css('margin', '1rem').css('width', '18rem').css('height', '32rem')
         .mouseenter(function() {
             product.addClass("shadow");
             product.css( { transition: "transform 0.2s", transform:  "scale(1.05, 1.05)" } );
@@ -154,7 +154,8 @@ function GetProducts(){
         let productLiningMaterial = $("<li></li>").css('font-family',"'oswald',sans-serif").css('font-size', '14px').text(iterator['liningMaterial']);
         
         let productCost = $("<h5></h5>").addClass('mt-auto').css('font-family',"'oswald',sans-serif").text(`${iterator['cost']} грн.`);
-        let productButton = $("<button></button>").addClass('btn btn-warning btn-lg').text("Купить").click(async function() {
+        
+        let productButton = $("<button></button>").addClass('button__style py-2').text("КУПИТЬ").click(async function() {
             if(iterator['stock'] > 0){
                 iterator['stock'] = iterator['stock'] - 1;
                 await UpdateProduct(iterator);
