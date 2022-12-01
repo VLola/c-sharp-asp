@@ -20,7 +20,6 @@
    color: orange;
   } 
   .div__button-black{
-    font-size:smaller;
     cursor: pointer;
   }
   .div__button-black:hover {

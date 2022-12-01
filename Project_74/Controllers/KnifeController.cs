@@ -17,14 +17,15 @@ namespace Project_74.Controllers
         }
         [HttpGet]
         [Route("KnifesList")]
-        public async Task<ActionResult<IEnumerable<Knife>>> Get(int id)
+        public async Task<ActionResult<IEnumerable<Knife>>> Get(int page, string category, int min, int max)
         {
             List<Knife> list = await _context.Knifes.ToListAsync();
+            list = list.Where(item=>item.Name.ToLower().Contains(category.ToLower()) && item.Cost >= min && item.Cost <= max).ToList();
             List<Knife> pageList = new();
 
             for (int i = 0; i < list.Count; i++)
             {
-                if(i < (id * 6) && i >= ((id * 6) - 6))
+                if(i < (page * 6) && i >= ((page * 6) - 6))
                 {
                     pageList.Add(list[i]);
                 }
@@ -33,9 +34,10 @@ namespace Project_74.Controllers
         }
         [HttpGet]
         [Route("GetPages")]
-        public async Task<ActionResult<int>> GetPages()
+        public async Task<ActionResult<int>> GetPages(string category, int min, int max)
         {
             List<Knife> list = await _context.Knifes.ToListAsync();
+            list = list.Where(item => item.Name.ToLower().Contains(category.ToLower()) && item.Cost >= min && item.Cost <= max).ToList();
             int products = list.Count;
             if (products % 6 == 0) return products / 6;
             else return products / 6 + 1;

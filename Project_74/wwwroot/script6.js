@@ -1,3 +1,6 @@
+var min = 0;
+var max = 100000;
+var category = "skif";
 var page = 1;
 var isLogin = false;
 async function AddProduct(){
@@ -58,7 +61,7 @@ function DeleteProduct(id){
 
 function AdminGetProducts(){
     $("#productForm").children().remove();
-    $.get(`/api/Knife/KnifesList?id=${page}`)
+    $.get(`/api/Knife/KnifesList?page=${page}&category=${category}&min=${min}&max=${max}`)
     .done((data) =>{
         for (const iterator of data) {
         let product = $("<div></div>").addClass('card shadow').css('margin', '1rem').css('width', '18rem').css('height', '36rem');
@@ -129,7 +132,7 @@ function AdminGetProducts(){
 
 function GetProducts(){
     $("#productForm").children().remove();
-    $.get(`/api/Knife/KnifesList?id=${page}`)
+    $.get(`/api/Knife/KnifesList?page=${page}&category=${category}&min=${min}&max=${max}`)
     .done(async (data) =>{
         for (const iterator of data) {
         let product = $("<div></div>").addClass('card').css('padding', '0rem').css('margin', '1rem').css('width', '18rem').css('height', '32rem')
@@ -299,9 +302,8 @@ function ValidatePassword(password) {
 
 function GetPages() {
     $("#pages").children().remove();
-    $.get(`/api/Knife/GetPages?id=${page}`)
+    $.get(`/api/Knife/GetPages?category=${category}&min=${min}&max=${max}`)
     .done((data) =>{
-        console.log(data);
 
         let liPrevious = $("<li></li>").addClass('page-item');
         let aPrevious = $("<li></li>").addClass('page-link text-dark').css('cursor', 'pointer').text("Previous").click(()=>{
@@ -381,6 +383,47 @@ document.addEventListener('DOMContentLoaded', (e) => {
         $("#buttonAddProduct").click(()=>{
             AddProduct();
         });
+
+        $("#button__filter").click(()=>{
+            let minPrice = $("#input__min-price").val();
+            let maxPrice = $("#input__max-price").val();
+
+            if(minPrice > 0) min = minPrice;
+            else min = 0;
+
+            if(maxPrice > 0 && maxPrice < 100000) max = maxPrice;
+            else max = 100000;
+
+            page = 1;
+            GetPages();
+            if(isLogin)AdminGetProducts();
+            else GetProducts();
+        });
+
+        $("#category-all").click(()=>{
+            category = "skif";
+            page = 1;
+            GetPages();
+            if(isLogin)AdminGetProducts();
+            else GetProducts();
+        });
+
+        $("#category-knife").click(()=>{
+            category = "нож";
+            page = 1;
+            GetPages();
+            if(isLogin)AdminGetProducts();
+            else GetProducts();
+        });
+
+        $("#category-machete").click(()=>{
+            category = "мачете";
+            page = 1;
+            GetPages();
+            if(isLogin)AdminGetProducts();
+            else GetProducts();
+        });
+
         GetPages();
         GetProducts();
 
