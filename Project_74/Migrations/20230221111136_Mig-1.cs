@@ -4,7 +4,7 @@
 
 namespace Project_74.Migrations
 {
-    public partial class Mig12 : Migration
+    public partial class Mig1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,6 +29,8 @@ namespace Project_74.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cost = table.Column<int>(type: "int", nullable: false),
+                    Stock = table.Column<int>(type: "int", nullable: false),
                     SteelHardness = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SteelGrade = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LiningMaterial = table.Column<string>(type: "nvarchar(max)", nullable: false),

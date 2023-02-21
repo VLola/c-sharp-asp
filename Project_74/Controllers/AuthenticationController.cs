@@ -21,9 +21,9 @@ namespace Project_74.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromForm] Admin user)
         {
-            if (!TryValidateModel(user, nameof(Login)))
+            if (!TryValidateModel(user, nameof(Admin)))
                 return BadRequest();
-            ModelState.ClearValidationState(nameof(Login));
+            ModelState.ClearValidationState(nameof(Admin));
             if (user is null)
             {
                 return BadRequest("Invalid user request!!!");
@@ -55,9 +55,9 @@ namespace Project_74.Controllers
         [HttpPost("registration")]
         public async Task<ActionResult> Add([FromForm] Admin user)
         {
-            if (!TryValidateModel(user, nameof(Login)))
+            if (!TryValidateModel(user, nameof(Admin)))
                 return BadRequest();
-            ModelState.ClearValidationState(nameof(Login));
+            ModelState.ClearValidationState(nameof(Admin));
             var addr = new System.Net.Mail.MailAddress(user.Email);
             if (addr.Address == user.Email)
             {

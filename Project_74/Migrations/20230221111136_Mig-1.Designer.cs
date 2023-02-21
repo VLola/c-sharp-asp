@@ -11,8 +11,8 @@ using Project_74.Data;
 namespace Project_74.Migrations
 {
     [DbContext(typeof(DbContextClass))]
-    [Migration("20221127082004_Mig-12")]
-    partial class Mig12
+    [Migration("20230221111136_Mig-1")]
+    partial class Mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,6 +52,9 @@ namespace Project_74.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -75,6 +78,9 @@ namespace Project_74.Migrations
                     b.Property<string>("SteelHardness")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
